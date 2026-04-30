@@ -1,7 +1,7 @@
 <launch>
 
-    <arg name="config"          default="oak_stereo_up_down" />
-    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/oak_canal_20260424.bag" />
+    <arg name="config"          default="oak_stereo_double" />
+    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/lynx_outdoor.bag" />
     <arg name="bag_start_time"  default="0" />
 
     <!-- MASTER NODE -->

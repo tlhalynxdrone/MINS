@@ -1,0 +1,8 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+imu:
+  accel_noise: 0.0025309522   # [ m / s^2 / sqrt(Hz) ]   ( accel "white noise" )
+  accel_bias: 0.00020018773682178493   # [ m / s^3 / sqrt(Hz) ].  ( accel bias diffusion )
+  gyro_noise: 0.00012633185   # [ rad / s / sqrt(Hz) ]   ( gyro "white noise" )
+  gyro_bias: 4.260517430489519e-06    # [ rad / s^2 / sqrt(Hz) ] ( gyro bias diffusion )
+  topic: "/imu/data"
