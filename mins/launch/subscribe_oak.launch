@@ -1,7 +1,7 @@
 <launch>
 
-    <arg name="config"          default="kaist/kaist_LC" />
-    <arg name="rosbag"          default="/home/wl/Desktop/urban29.bag" />
+    <arg name="config"          default="oak_stereo_up_down" />
+    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/oak_canal_20260424.bag" />
     <arg name="bag_start_time"  default="0" />
 
     <!-- MASTER NODE -->
