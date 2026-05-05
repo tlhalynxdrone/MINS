@@ -3,6 +3,9 @@
     <arg name="config"          default="oak_stereo_up_down" />
     <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/oak_canal_20260424.bag" />
     <arg name="bag_start_time"  default="0" />
+    <arg name="realtime"  default="false" />
+
+
 
     <!-- MASTER NODE -->
     <node name="mins_subscribe" pkg="mins" type="subscribe" output="screen" clear_params="true" required="true">
@@ -10,5 +13,7 @@
     </node>
 
     <!-- ROS BAG -->
-    <node pkg="rosbag" type="play" name="rosbag" output="screen" args="--clock -s $(arg bag_start_time) $(arg rosbag)"/>
+    <node pkg="rosbag" type="play" name="rosbag" output="screen"
+          args="--clock -s $(arg bag_start_time) $(arg rosbag)"
+          unless="$(arg realtime)" />
 </launch>
