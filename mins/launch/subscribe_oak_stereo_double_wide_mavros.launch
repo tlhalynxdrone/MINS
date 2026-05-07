@@ -1,0 +1,18 @@
+<launch>
+
+    <arg name="config"          default="oak_stereo_double_wide_mavros" />
+    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/lynx_outdoor.bag" />
+    <arg name="bag_start_time"  default="0" />
+    <arg name="realtime"  default="true" />
+    <!-- MASTER NODE -->
+    <node name="mins_subscribe" pkg="mins" type="subscribe" output="screen" clear_params="true" required="true">
+        <param name="config_path"       type="str"  value="$(find mins)/config/$(arg config)/config.yaml" />
+    </node>
+
+    <!-- ROS BAG -->
+      <!-- ROS BAG -->
+     <node pkg="rosbag" type="play" name="rosbag" output="screen"
+          args="--clock -s $(arg bag_start_time) $(arg rosbag)"
+          unless="$(arg realtime)" />
+</launch>
+
