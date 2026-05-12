@@ -1,7 +1,7 @@
 <launch>
 
-    <arg name="config"          default="oak_stereo_double" />
-    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/lynx_outdoor.bag" />
+    <arg name="config"          default="oak_d_pro_rgb_stereo_400p_oakd" />
+    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/missions/canalisation/canalisation_cleaned.bag" />
     <arg name="bag_start_time"  default="0" />
     <arg name="realtime"  default="true" />
     <!-- MASTER NODE -->
@@ -14,4 +14,3 @@
           args="--clock -s $(arg bag_start_time) $(arg rosbag)"
           unless="$(arg realtime)" />
 </launch>
-
