@@ -3,7 +3,7 @@
     <arg name="config"          default="drone_rgb_stereo_400p_mavros" />
     <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/drone_rgb_stereo_400p.bag" />
     <arg name="bag_start_time"  default="0" />
-<arg name="realtime"  default="true" />
+    <arg name="realtime"  default="true" />
     <!-- MASTER NODE -->
     <node name="mins_subscribe" pkg="mins" type="subscribe" output="screen" clear_params="true" required="true">
         <param name="config_path"       type="str"  value="$(find mins)/config/$(arg config)/config.yaml" />
@@ -13,4 +13,7 @@
      <node pkg="rosbag" type="play" name="rosbag" output="screen"
           args="--clock -s $(arg bag_start_time) $(arg rosbag)"
           unless="$(arg realtime)" />
+<!-- 
+        <node pkg="tf" type="static_transform_publisher" name="map_to_global"
+      args="0 0 0 0 0 0 map global 100" /> -->
 </launch>
