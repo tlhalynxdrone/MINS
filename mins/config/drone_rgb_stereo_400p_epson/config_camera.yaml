@@ -2,13 +2,13 @@
 
 cam:
   enabled: true
-  max_n: 2
+  max_n: 3
   use_stereo: true
   stereo_pair: [0, 1]
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: true
-  n_pts: 50
+  n_pts: 75
   fast: 20
   grid_x: 20
   grid_y: 20
