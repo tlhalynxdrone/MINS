@@ -8,7 +8,7 @@ cam:
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: true
-  n_pts: 200
+  n_pts: 100
   fast: 20
   grid_x: 20
   grid_y: 20
