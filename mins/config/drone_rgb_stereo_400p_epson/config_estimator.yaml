@@ -1,7 +1,7 @@
 %YAML:1.0 # need to specify the file type at the top!
 
 est:
-  gravity_mag: 9.81
+  gravity_mag: 9.805
   clone_freq: 20
   window_size: 1.0
   intr_order: 3

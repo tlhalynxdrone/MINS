@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="config"          default="drone_rgb_stereo_400p_epson" />
-    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/drone_rgb_stereo_400p.bag" />
+    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/mins_hiro_2026-06-15-16-22-07_cleaned.bag" />
     <arg name="bag_start_time"  default="0" />
 <arg name="realtime"  default="true" />
     <!-- MASTER NODE -->
@@ -13,4 +13,7 @@
      <node pkg="rosbag" type="play" name="rosbag" output="screen"
           args="--clock -s $(arg bag_start_time) $(arg rosbag)"
           unless="$(arg realtime)" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" unless="$(arg realtime)" name="map_to_global"
+      args="0 0 0 0 0 0 map global" />
 </launch>
