@@ -8,8 +8,8 @@ lidar:
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-6
   init_cov_ex_p: 1e-6
-  max_range: 10.0
-  min_range: 0.1
+  max_range: 20.0
+  min_range: 1
   chi2_mult: 1
   raw_do_downsample: true
   raw_downsample_size: 2.0
@@ -29,7 +29,7 @@ lidar:
   plane_max_condi: 200.0
 
 lidar0:
-  timeoffset: -0.028935
+  timeoffset: -0.0
   T_imu_lidar:
     - [ 0.999215, -0.015136,  0.036602, -0.190502]
     - [-0.015770, -0.999729,  0.017113,  0.010101]

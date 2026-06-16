@@ -8,7 +8,7 @@ cam:
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: true
-  n_pts: 75
+  n_pts: 200
   fast: 20
   grid_x: 20
   grid_y: 20
@@ -27,6 +27,12 @@ cam:
   init_cov_in_r: 1e-5
   sigma_px: 1
   chi2_mult: 1
+
+  # feature related
+  fi_min_dist: 0.25
+  fi_max_dist: 150
+  fi_max_baseline: 2000
+  fi_max_cond_number: 10000
 
   # ==================================================================
   # ==================================================================
