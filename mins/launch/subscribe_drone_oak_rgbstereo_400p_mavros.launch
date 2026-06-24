@@ -7,6 +7,7 @@
     <!-- MASTER NODE -->
     <node name="mins_subscribe" pkg="mins" type="subscribe" output="screen" clear_params="true" required="true">
         <param name="config_path"       type="str"  value="$(find mins)/config/$(arg config)/config.yaml" />
+         <remap from="/mins/lidar0/points" to="/cloud_registered_body" />
     </node>
 
     <!-- ROS BAG -->
