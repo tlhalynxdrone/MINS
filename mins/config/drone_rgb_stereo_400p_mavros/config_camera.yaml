@@ -8,12 +8,12 @@ cam:
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: true
-  n_pts: 75
+  n_pts: 65
   fast: 20
   grid_x: 20
   grid_y: 20
   min_px_dist: 20
-  knn: 0.70
+  knn: 0.7
   downsample: false
   histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
   max_slam: 50

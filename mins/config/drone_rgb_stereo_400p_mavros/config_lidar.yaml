@@ -4,14 +4,14 @@ lidar:
   enabled: true
   max_n: 1
   do_calib_dt: false
-  do_calib_ext: true
+  do_calib_ext: false
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-6
   init_cov_ex_p: 1e-6
-  max_range: 30.0
-  min_range: 0.1
+  max_range: 20.0
+  min_range: 0.5
   chi2_mult: 1
-  raw_do_downsample: true
+  raw_do_downsample: false
   raw_downsample_size: 2.0
   raw_noise: 0.1
   raw_remove_motion_blur: false # required to set v_angles and h_angles correctly
@@ -24,7 +24,7 @@ lidar:
   map_decay_time: 30 # sec
   map_decay_dist: 30 # m
   map_use_icp: false
-  map_icp_dist: 30 # m  
+  map_icp_dist: 30 # m
   plane_max_p2pd: 0.1
   plane_max_condi: 200.0
 
