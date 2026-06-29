@@ -11,7 +11,7 @@ lidar:
   max_range: 20.0
   min_range: 0.5
   chi2_mult: 1
-  raw_do_downsample: true
+  raw_do_downsample: false
   raw_downsample_size: 2.0
   raw_noise: 0.1
   raw_remove_motion_blur: false # required to set v_angles and h_angles correctly

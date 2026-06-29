@@ -13,7 +13,7 @@ cam:
   grid_x: 20
   grid_y: 20
   min_px_dist: 20
-  knn: 0.65
+  knn: 0.7
   downsample: false
   histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
   max_slam: 50

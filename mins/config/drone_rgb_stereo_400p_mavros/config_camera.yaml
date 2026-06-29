@@ -2,7 +2,7 @@
 
 cam:
   enabled: true
-  max_n: 3
+  max_n: 2
   use_stereo: true
   stereo_pair: [0, 1]
   do_calib_ext: false
