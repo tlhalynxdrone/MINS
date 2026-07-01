@@ -7,18 +7,18 @@ cam:
   stereo_pair: [0, 1]
   do_calib_ext: false
   do_calib_int: false
-  do_calib_dt: true
-  n_pts: 50
-  fast: 20
-  grid_x: 20
-  grid_y: 20
-  min_px_dist: 20
+  do_calib_dt: false
+  n_pts: 500
+  fast: 30
+  grid_x: 15
+  grid_y: 15
+  min_px_dist: 15
   knn: 0.7
   downsample: false
   histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
-  max_slam: 50
-  max_msckf: 75
-  feat_rep: "GLOBAL_3D"
+  max_slam: 40
+  max_msckf: 40
+  feat_rep: "GLOBAL_FULL_INVERSE_DEPTH"
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-4
   init_cov_ex_p: 1e-4
@@ -29,10 +29,10 @@ cam:
   chi2_mult: 1
 
   # feature related
-  # fi_min_dist: 0.25
-  # fi_max_dist: 150
-  # fi_max_baseline: 2000
-  # fi_max_cond_number: 10000
+  fi_min_dist: 0.25
+  fi_max_dist: 150
+  fi_max_baseline: 2000
+  fi_max_cond_number: 10000
 
   # ==================================================================
   # ==================================================================
