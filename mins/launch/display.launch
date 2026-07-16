@@ -1,0 +1,11 @@
+<launch>
+    <arg name="rviz_config"
+         default="/home/tlha/catkin_ws/src/MINS/mins/launch/display_lidar_vio.rviz"/>
+
+    <node
+        pkg="rviz"
+        type="rviz"
+        name="rviz"
+        args="-d $(arg rviz_config)"
+        output="screen"/>
+</launch>

@@ -17,9 +17,12 @@
 
     <node pkg="tf2_ros" type="static_transform_publisher" unless="$(arg realtime)" name="map_to_global"
       args="0 0 0 0 0 0 map global" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_global"
+      args="0 0 0 0 0 0 odom global" />
     
-     <!-- <node pkg="tf2_ros" type="static_transform_publisher" unless="$(arg realtime)" name="livox_to_map0"
-      args="0 0 0 0 0 0 livox_frame map0" /> -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="epson_to_imu"
+            args="-0.080 -0.001 0.052  0 0 0 imu base_link" />  
 
       
 </launch>
