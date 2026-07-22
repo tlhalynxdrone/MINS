@@ -1,0 +1,28 @@
+<launch>
+
+    <arg name="config"          default="drone_ver2_oak_pro_d_epson" />
+    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/mins_hiro_2026-06-15-16-22-07_cleaned.bag" />
+    <arg name="bag_start_time"  default="0" />
+    <arg name="realtime"  default="true" />
+    <!-- MASTER NODE -->
+    <node name="mins_subscribe" pkg="mins" type="subscribe" output="screen" clear_params="true" required="true">
+        <param name="config_path"       type="str"  value="$(find mins)/config/$(arg config)/config.yaml" />
+        <remap from="/mins/lidar0/points" to="/cloud_registered_body" />
+    </node>
+
+    <!-- ROS BAG -->
+     <node pkg="rosbag" type="play" name="rosbag" output="screen"
+          args="--clock -s $(arg bag_start_time) $(arg rosbag)"
+          unless="$(arg realtime)" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" unless="$(arg realtime)" name="map_to_global"
+      args="0 0 0 0 0 0 map global" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_global"
+      args="0 0 0 0 0 0 odom global" />
+    
+    <node pkg="tf2_ros" type="static_transform_publisher" name="epson_to_imu"
+            args="-0.080 -0.001 0.052  0 0 0 imu base_link" />  
+
+      
+</launch>
