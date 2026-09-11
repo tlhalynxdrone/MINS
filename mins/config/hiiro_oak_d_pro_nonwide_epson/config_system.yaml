@@ -3,14 +3,14 @@
 sys:
   verbosity: 2
   save_timing: true
-  path_timing: "MINS_DIR/../../../../outputs/tmp/0.time"
-  save_state: false
-  path_state: "MINS_DIR/../../../../outputs/tmp/0/"
+  path_timing: "/home/orinlynx/eval/outputs/tmp/0.time"
+  save_state: true
+  path_state: "/home/orinlynx/eval/outputs/tmp/0/"
   save_trajectory: true
-  path_trajectory: "MINS_DIR/../../../../outputs/tmp/0.txt"
-  save_prints: false
+  path_trajectory: "/home/orinlynx/eval/outputs/tmp/0.txt"
+  save_prints: true
   exp_id: 0
 
-  path_bag: "/home/tlha/Work/VIO/bags/lynx_office.bag"
+  path_bag: "/home/orinlynx/eval/bags/0.bag"
   bag_start: 0
   bag_durr: -1
