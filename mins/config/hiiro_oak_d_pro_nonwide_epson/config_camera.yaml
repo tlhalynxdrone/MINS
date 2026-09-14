@@ -9,13 +9,13 @@ cam:
   do_calib_int: false
   do_calib_dt: true
   n_pts: 500
-  fast: 20
+  fast: 30
   grid_x: 15
   grid_y: 15
-  min_px_dist: 20
+  min_px_dist: 30
   knn: 0.7
   downsample: false
-  histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
+  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
   max_slam: 75
   max_msckf: 60
   feat_rep: "GLOBAL_FULL_INVERSE_DEPTH"

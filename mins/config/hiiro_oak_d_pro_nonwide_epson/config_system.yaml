@@ -3,14 +3,14 @@
 sys:
   verbosity: 2
   save_timing: true
-  path_timing: "/home/orinlynx/eval/outputs/tmp/0.time"
+  path_timing: "/home/tlha/eval/outputs/tmp/0.time"
   save_state: true
-  path_state: "/home/orinlynx/eval/outputs/tmp/0/"
+  path_state: "/home/tlha/eval/outputs/tmp/0/"
   save_trajectory: true
-  path_trajectory: "/home/orinlynx/eval/outputs/tmp/0.txt"
+  path_trajectory: "/home/tlha/eval/outputs/tmp/0.txt"
   save_prints: true
   exp_id: 0
 
-  path_bag: "/home/orinlynx/eval/bags/0.bag"
+  path_bag: "/home/tlha/Work/VIO/dronebags/lynx_mins_hiiro_oak_d_pro_nonwide_08_autostart_cleaned.bag"
   bag_start: 0
   bag_durr: -1
