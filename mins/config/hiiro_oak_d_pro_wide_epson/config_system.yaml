@@ -1,0 +1,16 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+sys:
+  verbosity: 2
+  save_timing: true
+  path_timing: "/home/orinlynx/eval/outputs/tmp/0.time"
+  save_state: true
+  path_state: "/home/orinlynx/eval/outputs/tmp/0/"
+  save_trajectory: true
+  path_trajectory: "/home/orinlynx/eval/outputs/tmp/0.txt"
+  save_prints: true
+  exp_id: 0
+
+  path_bag: "/home/orinlynx/Work/VIO/dronebags/lynx_mins_hiiro_oak_d_pro_nonwide_08_autostart_cleaned.bag"
+  bag_start: 0
+  bag_durr: -1

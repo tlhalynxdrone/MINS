@@ -1,0 +1,65 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+cam:
+  enabled: true
+  max_n: 2
+  use_stereo: true
+  stereo_pair: [0, 1]
+  do_calib_ext: false
+  do_calib_int: false
+  do_calib_dt: true
+  n_pts: 500
+  fast: 30
+  grid_x: 15
+  grid_y: 15
+  min_px_dist: 30
+  knn: 0.7
+  downsample: false
+  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
+  max_slam: 75
+  max_msckf: 60
+  feat_rep: "GLOBAL_FULL_INVERSE_DEPTH"
+  init_cov_dt: 1e-4
+  init_cov_ex_o: 1e-4
+  init_cov_ex_p: 1e-4
+  init_cov_in_k: 1e-1
+  init_cov_in_c: 1e-1
+  init_cov_in_r: 1e-5
+  sigma_px: 1
+  chi2_mult: 1
+
+  fi_min_dist: 0.25
+  fi_max_dist: 150
+  fi_max_baseline: 2000
+  fi_max_cond_number: 10000
+  # ==================================================================
+  # ==================================================================
+
+
+cam0:
+  timeoffset: 0.01044201920108571
+  T_cam_imu:
+    - [-0.025613071114115066, -0.9996718032962626, 0.0005062435176607094, 0.027462861084718192]
+    - [0.006157652474382713, -0.0006641681769016805, -0.9999808209143988, 0.011240342048208476]
+    - [0.9996529667360096, -0.025609462607182498, 0.006172642939884593, -0.050337898792628656]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.2514258719477893, 0.046218953676196564, 0.000199312516468469, -0.002235785965272193]
+  distortion_model: radtan
+  intrinsics: [293.2755550349245, 292.91453800330675, 331.90959717084684, 201.50719267491348]
+  resolution: [640, 400]
+  topic: /oak_wide/left/image_raw
+
+cam1:
+  timeoffset: 0.01016020955069781
+  T_cam_imu:
+    - [-0.02163902714709845, -0.999763869637114, -0.001989339677188895, -0.04711982290529216]
+    - [0.009121598485861082, 0.001792294417934992, -0.9999567911273879, 0.011076742755086905]
+    - [0.9997242364498273, -0.021656238106918302, 0.009080661091935255, -0.05173533299632725]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.255967480632918, 0.04832126388668803, 0.0005669255402714561, -0.0015876003809976388]
+  distortion_model: radtan
+  intrinsics: [295.0995782148151, 294.30981678775015, 319.6557088436276, 203.54180866268604]
+  resolution: [640, 400]
+  topic: /oak_wide/right/image_raw
+
+

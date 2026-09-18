@@ -1,0 +1,13 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+imu:
+  accel_noise: 0.003193024634677332
+  accel_bias: 0.0013734297464383504
+  gyro_noise: 0.0006343659658792389
+  gyro_bias: 1.6641570623780126e-05
+  topic: /oak_wide/imu/data
+  # accel_noise: 0.004252563367583279    # [ m / s^2 / sqrt(Hz) ]   ( accel "white noise" )
+  # accel_bias:  0.00035443869982321055   # [ m / s^3 / sqrt(Hz) ].  ( accel bias diffusion )
+  # gyro_noise: 0.0006149520337096763  # [ rad / s / sqrt(Hz) ]   ( gyro "white noise" )
+  # gyro_bias: 7.181857856994923e-06    # [ rad / s^2 / sqrt(Hz) ] ( gyro bias diffusion )
+  # topic: /oak_wide/imu/data
