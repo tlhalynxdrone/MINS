@@ -1,0 +1,63 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+cam:
+  enabled: true
+  max_n: 2
+  use_stereo: true
+  stereo_pair: [0, 1]
+  do_calib_ext: false
+  do_calib_int: false
+  do_calib_dt: true
+  n_pts: 500
+  fast: 30
+  grid_x: 15
+  grid_y: 15
+  min_px_dist: 30
+  knn: 0.7
+  downsample: false
+  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
+  max_slam: 75
+  max_msckf: 60
+  feat_rep: "GLOBAL_FULL_INVERSE_DEPTH"
+  init_cov_dt: 1e-4
+  init_cov_ex_o: 1e-4
+  init_cov_ex_p: 1e-4
+  init_cov_in_k: 1e-1
+  init_cov_in_c: 1e-1
+  init_cov_in_r: 1e-5
+  sigma_px: 1
+  chi2_mult: 1
+
+  fi_min_dist: 0.25
+  fi_max_dist: 150
+  fi_max_baseline: 2000
+  fi_max_cond_number: 10000
+  # ==================================================================
+  # ==================================================================
+
+
+cam0:
+  timeoffset: 0.00044152668983941587
+  T_cam_imu:
+    - [0.05218680571251694, 0.9985836353994784, -0.010356660749707702, -0.0632723842272566]
+    - [-0.062458122295930785, 0.013614251177494263, 0.9979547259891812, 0.04603730484825102]
+    - [0.9966822564231741, -0.05143321181140276, 0.06308014310361718, 1.4705060120087479]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [0.0007466954812957408, -0.03855708219866409, -0.002453941321231855, 0.0013992806574315583]
+  distortion_model: radtan
+  intrinsics: [409.20858598863845, 407.76151187464734, 304.2993475137986, 179.60644034761316]
+  resolution: [640, 400]
+  topic: /oak/left/image_raw
+
+cam1:
+  timeoffset: 0.0004466850204310653
+  T_cam_imu:
+    - [0.05294341479300804, 0.9984689466243754, -0.01602365304373571, -0.13758817978654836]
+    - [-0.06872913897573707, 0.01965150398420057, 0.9974417897034458, 0.0357241804934242]
+    - [0.9962295419659617, -0.05170668252720789, 0.06966432872224651, 1.4703146923735027]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [0.0016817876114573022, -0.036334345966045255, -0.004194030990165304, -0.0003440554719438051]
+  distortion_model: radtan
+  intrinsics: [406.7202797875937, 405.4769059518895, 313.2308463595976, 184.69057008055887]
+  resolution: [640, 400]
+  topic: /oak/right/image_raw
