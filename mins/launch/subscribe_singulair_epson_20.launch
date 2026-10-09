@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="config"          default="hiiro_singulair_epson_20" />
-    <arg name="rosbag"          default="/home/tlha/Work/VIO/bags/lynx_outdoor.bag" />
+    <arg name="rosbag"          default="$(env HOME)/rosbags/$(arg config).bag" />
     <arg name="bag_start_time"  default="0" />
     <arg name="realtime"  default="true" />
     <!-- MASTER NODE -->
