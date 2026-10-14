@@ -143,7 +143,7 @@ void ROSPublisher::publish_imu() {
   odom.block(7, 0, 3, 1) = sys->state->imu->vel();
   odom.block(10, 0, 3, 1) = sys->state->have_cpi(sys->state->time) ? sys->state->cpis.at(sys->state->time).w : Vector3d::Zero();
   nav_msgs::Odometry odomIinG = ROSHelper::ToOdometry(odom);
-  odomIinG.header.stamp = ros::Time(sys->state->time);
+  odomIinG.header.stamp = ros::Time::now();
   odomIinG.header.frame_id = "global";
   odomIinG.child_frame_id = "imu";
 
