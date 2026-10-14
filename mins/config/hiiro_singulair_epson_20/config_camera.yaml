@@ -9,7 +9,7 @@ cam:
   do_calib_int: false
   do_calib_dt: true
   n_pts: 500
-  fast: 30
+  fast: 20
   grid_x: 15
   grid_y: 15
   min_px_dist: 30
