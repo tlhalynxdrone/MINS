@@ -79,6 +79,10 @@ SystemManager::SystemManager(shared_ptr<OptionsEstimator> op, shared_ptr<Simulat
   avg_freq = make_shared<STAT>();
 }
 
+double SystemManager::get_travel_distance() {
+  return distance;
+}
+
 bool SystemManager::feed_measurement_imu(const ov_core::ImuData &imu) {
   // Feed our propagator
   prop->feed_imu(imu);
@@ -707,4 +711,5 @@ void SystemManager::visualize_final() {
     }
   }
   PRINT2("\n" RESET);
+
 }

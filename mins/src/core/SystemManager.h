@@ -117,6 +117,8 @@ public:
   /// Timing recorder for analysis
   std::shared_ptr<TimeChecker> tc_sensors;
 
+  double get_travel_distance();
+
 protected:
   /// Determine next clone time
   bool get_next_clone_time(double &clone_time, double meas_t);
@@ -129,6 +131,8 @@ protected:
 
   /// Nice print of the state and calibration results
   void print_status();
+
+
 
   /// VICON updater
   std::shared_ptr<UpdaterVicon> up_vcn;

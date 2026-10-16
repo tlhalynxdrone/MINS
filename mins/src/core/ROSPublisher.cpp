@@ -77,6 +77,11 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
   pub_imu_path = nh->advertise<nav_msgs::Path>("/mins/imu/path", 2);
   PRINT1("Publishing: %s\n", pub_imu_path.getTopic().c_str());
 
+
+  //distance
+  pub_distance = nh->advertise<std_msgs::Float64>("/HIIRO/traveled_distance", 2);
+  PRINT1("Publishing: %s\n", pub_distance.getTopic().c_str());
+
   // CAM
   if (sys->state->op->cam->enabled) {
     pub_cam_msckf = nh->advertise<sensor_msgs::PointCloud2>("/mins/cam/msckf", 2);
@@ -161,7 +166,7 @@ void ROSPublisher::publish_imu() {
   odom.block(7, 0, 3, 1) = sys->state->imu->vel();
   odom.block(10, 0, 3, 1) = sys->state->have_cpi(sys->state->time) ? sys->state->cpis.at(sys->state->time).w : Vector3d::Zero();
   nav_msgs::Odometry odomIinG = ROSHelper::ToOdometry(odom);
-  odomIinG.header.stamp = ros::Time::now();
+  odomIinG.header.stamp = ros::Time(sys->state->time);
   odomIinG.header.frame_id = "global";
   odomIinG.child_frame_id = "imu";
 
@@ -280,6 +285,13 @@ void ROSPublisher::publish_state() {
     }
   }
   pub_imu_pose.publish(poseIinM);
+
+
+  //Traveled distance 
+  double distance = sys->get_travel_distance();
+  std_msgs::Float64 distance_msg;
+  distance_msg.data = distance;
+  pub_distance.publish(distance_msg);
 
   //=========================================================
   //=========================================================
