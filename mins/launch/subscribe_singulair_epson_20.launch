@@ -24,6 +24,6 @@
     
     <node pkg="tf2_ros" type="static_transform_publisher" name="livox_lidar"
             args="0 0 0 0 0 0 lidar0 livox_frame" />   -->
-
+    
 </launch>
 

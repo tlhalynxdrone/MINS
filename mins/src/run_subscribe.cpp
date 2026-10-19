@@ -45,23 +45,36 @@ int main(int argc, char **argv) {
   options.automatically_declare_parameters_from_overrides(true);
   auto node = std::make_shared<rclcpp::Node>("mins_subscribe", options);
   node->get_parameter<std::string>("config_path", config_path);
-#endif
+#else
+  ros::init(argc, argv, "mins_subscribe");
+  auto nh = make_shared<ros::NodeHandle>("~");
+  nh->param<string>("config_path", config_path, config_path);
   std::cout << "Loading config from path: " << config_path << std::endl;
   // Load the config
   auto parser = make_shared<ov_core::YamlParser>(config_path);
+  parser->set_node_handler(nh);
+#endif
+
 #if ROS_AVAILABLE == 2
   parser->set_node(node);
-#endif
+#else
   shared_ptr<Options> op = make_shared<Options>();
   op->load_print(parser);
   shared_ptr<State_Logger> save = make_shared<State_Logger>(op);
+#endif
+
 
   // Create our system
   shared_ptr<SystemManager> sys = make_shared<SystemManager>(op->est);
 #if ROS_AVAILABLE == 2
   shared_ptr<ROS2Publisher> pub = make_shared<ROS2Publisher>(node, sys, op);
   shared_ptr<ROS2Subscriber> sub = make_shared<ROS2Subscriber>(node, sys, pub);
+#else
+  shared_ptr<ROSPublisher> pub = make_shared<ROSPublisher>(nh, sys, op);
+  shared_ptr<ROSSubscriber> sub = make_shared<ROSSubscriber>(nh, sys, pub);
 #endif
+
+
 
   // Ensure we read in all parameters required
   if (!parser->successful()) {
@@ -75,6 +88,8 @@ int main(int argc, char **argv) {
   executor.add_node(node);
   executor.spin();
   // Spin off to ROS
+#else
+  ros::spin();
 #endif
 
   // Final visualization
@@ -84,7 +99,10 @@ int main(int argc, char **argv) {
 
 #if ROS_AVAILABLE == 2
   rclcpp::shutdown();
+#else
+  ros::shutdown();
 #endif
+  
   // Done!
   return EXIT_SUCCESS;
 }

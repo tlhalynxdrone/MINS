@@ -11,6 +11,7 @@
 #define MINS_ROSPUBLISHER_H
 
 #include "geometry_msgs/PoseStamped.h"
+#include "std_msgs/Float64.h"
 // forward decls - full PointCloud.h only needed in .cpp files that build/read clouds
 namespace mins {
 struct PointXYZ;
@@ -95,7 +96,7 @@ private:
   // Our publishers
   std::shared_ptr<tf::TransformBroadcaster> mTfBr;
   std::vector<image_transport::Publisher> pub_cam_image;
-  ros::Publisher pub_imu_pose, pub_imu_odom, pub_imu_path, pub_cam_msckf, pub_cam_slam;
+  ros::Publisher pub_imu_pose, pub_imu_odom, pub_imu_path, pub_cam_msckf, pub_cam_slam, pub_distance;
   std::vector<ros::Publisher> pub_gps_pose, pub_gps_path, pub_vicon_pose, pub_vicon_path, pub_lidar_cloud, pub_lidar_map;
 
   // For path viz
