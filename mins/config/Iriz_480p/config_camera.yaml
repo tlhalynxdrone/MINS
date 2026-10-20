@@ -8,16 +8,17 @@ cam:
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: true
+  # mono tuning: keep full 848x480 (downsampling to 424x240 starves a single camera of features)
   n_pts: 800
-  fast: 40
-  grid_x: 24
-  grid_y: 16
+  fast: 20
+  grid_x: 16
+  grid_y: 10
   min_px_dist: 20
-  knn: 0.7
+  knn: 0.65
   downsample: false
-  histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
-  max_slam: 40
-  max_msckf: 50
+  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE  (CLAHE is more robust to RGB auto-exposure changes)
+  max_slam: 50
+  max_msckf: 60
   feat_rep: "GLOBAL_3D"
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-4
@@ -25,12 +26,13 @@ cam:
   init_cov_in_k: 1e-1
   init_cov_in_c: 1e-1
   init_cov_in_r: 1e-5
-  sigma_px: 1.5
+  sigma_px: 1.5 # rolling-shutter RGB, keep slightly inflated
   chi2_mult: 1
 
-  fi_min_dist: 0.25
-  fi_max_dist: 300
-  fi_max_baseline: 2000
+  # mono has no stereo baseline: reject far / poorly-triangulated points that bias the filter
+  fi_min_dist: 0.2
+  fi_max_dist: 60
+  fi_max_baseline: 200
   fi_max_cond_number: 10000
   # ==================================================================
   # ==================================================================

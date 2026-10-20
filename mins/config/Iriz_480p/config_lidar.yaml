@@ -1,30 +1,31 @@
 %YAML:1.0 # need to specify the file type at the top!
 
 lidar:
-  enabled: false
+  enabled: true
   max_n: 1
-  do_calib_dt: false
+  # tuned for Ouster 128-channel (~131k pts/scan @10Hz)
+  do_calib_dt: true # Ouster stamps the scan start; let the filter refine the offset
   do_calib_ext: false
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-6
   init_cov_ex_p: 1e-6
-  max_range: 20.0
-  min_range: 0.1
+  max_range: 50.0
+  min_range: 1.0 # Ouster near-field blind zone + drone frame/props
   chi2_mult: 1
   raw_do_downsample: true
-  raw_downsample_size: 2.0
-  raw_noise: 0.1
-  raw_remove_motion_blur: false # required to set v_angles and h_angles correctly
+  raw_downsample_size: 1.0 # 128 rings are dense enough to keep finer structure
+  raw_noise: 0.05 # Ouster range noise is a few cm
+  raw_remove_motion_blur: false # MINS deskew assumes time-ordered points; Ouster clouds are ring-ordered, keep off
   raw_point_dt: 1e-6
   map_do_downsample: true
-  map_downsample_size: 0.5
+  map_downsample_size: 0.4
   map_noise: 0.1
   map_ngbr_num: 5
-  map_ngbr_max_d: 10.0
-  map_decay_time: 30 # sec
-  map_decay_dist: 30 # m
+  map_ngbr_max_d: 3.0 # keep plane neighbors local
+  map_decay_time: 60 # sec
+  map_decay_dist: 60 # m (>= max_range so the map covers the scan)
   map_use_icp: false
-  map_icp_dist: 20 # m
+  map_icp_dist: 50 # m
   plane_max_p2pd: 0.1
   plane_max_condi: 200.0
 
@@ -32,10 +33,9 @@ lidar0:
   timeoffset: 0.010398
   
   T_imu_lidar: 
-    - [-0.999819,  0.0, 0.0, -0.041939]
-    - [ 0       ,  0.999882,  0,  0.008757]
-    - [ 0,  0, -0.999915, 0]
+    - [ 0.998468, -0.001739, -0.055312, -0.093658]
+    - [ -0.001818, 0.997936, -0.064188, 0.105839]
+    - [ 0.055309, 0.064190, 0.996404, 0.097241]
     - [ 0.000000,  0.000000,  0.000000,  1.000000]
    
-  topic: "/livox/points"
-
+  topic: "/ouster/points"
