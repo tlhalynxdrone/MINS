@@ -7,13 +7,13 @@ cam:
   # stereo_pair: [0, 1]
   do_calib_ext: false
   do_calib_int: false
-  do_calib_dt: true
+  do_calib_dt: false
   # mono tuning: keep full 848x480 (downsampling to 424x240 starves a single camera of features)
-  n_pts: 800
+  n_pts: 600
   fast: 20
   grid_x: 16
   grid_y: 10
-  min_px_dist: 20
+  min_px_dist: 30
   knn: 0.65
   downsample: false
   histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE  (CLAHE is more robust to RGB auto-exposure changes)
@@ -31,7 +31,7 @@ cam:
 
   # mono has no stereo baseline: reject far / poorly-triangulated points that bias the filter
   fi_min_dist: 0.2
-  fi_max_dist: 60
+  fi_max_dist: 30
   fi_max_baseline: 200
   fi_max_cond_number: 10000
   # ==================================================================
