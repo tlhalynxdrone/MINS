@@ -13,5 +13,8 @@
      <node pkg="rosbag" type="play" name="rosbag" output="screen"
           args="--clock -s $(arg bag_start_time) $(arg rosbag)"
           unless="$(arg realtime)" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="imu_to_base_link"
+        args="-0.131 0.0 -0.1275 0 0 0 imu base_link" />
 </launch>
 
