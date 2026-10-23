@@ -11,7 +11,7 @@
 
     <!-- ROS BAG -->
      <node pkg="rosbag" type="play" name="rosbag" output="screen"
-          args="--clock -s $(arg bag_start_time) $(arg rosbag)"
+          args="--clock -s $(arg bag_start_time) $(arg rosbag) "
           unless="$(arg realtime)" />
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="imu_to_base_link"

@@ -9,7 +9,7 @@ cam:
   do_calib_int: false
   do_calib_dt: false
   # mono tuning: keep full 848x480 (downsampling to 424x240 starves a single camera of features)
-  n_pts: 600
+  n_pts: 500
   fast: 20
   grid_x: 16
   grid_y: 10

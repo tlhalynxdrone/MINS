@@ -61,7 +61,7 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
 
 
   //distance
-  pub_distance = nh->advertise<std_msgs::Float64>("/HIIRO/traveled_distance", 2);
+  pub_distance = nh->advertise<std_msgs::Float64>("/iriz/traveled_distance", 2);
   PRINT1("Publishing: %s\n", pub_distance.getTopic().c_str());
 
   // CAM
