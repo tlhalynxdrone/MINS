@@ -1,7 +1,7 @@
 %YAML:1.0 # need to specify the file type at the top!
 
 lidar:
-  enabled: true
+  enabled: false
   max_n: 1
   # tuned for Ouster 128-channel (~131k pts/scan @10Hz)
   do_calib_dt: true # Ouster stamps the scan start; let the filter refine the offset

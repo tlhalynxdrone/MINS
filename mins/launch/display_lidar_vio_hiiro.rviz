@@ -20,7 +20,7 @@ Panels:
         - /Livox 3d1/Status1
         - /Image1
       Splitter Ratio: 0.6029411554336548
-    Tree Height: 355
+    Tree Height: 560
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -38,7 +38,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: MSCKF Points
+    SyncSource: Image Tracks
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -70,50 +70,46 @@ Visualization Manager:
       Filter (whitelist): ""
       Frame Timeout: 120
       Frames:
+        A8_base:
+          Value: true
+        A8_camera_head:
+          Value: true
+        A8_view_frame:
+          Value: true
         All Enabled: false
         base_link:
           Value: false
-        base_link_livo:
-          Value: true
         c0:
           Value: false
         c1:
           Value: false
-        c10:
-          Value: false
-        c11:
-          Value: false
-        c12:
-          Value: false
-        c13:
-          Value: false
-        c14:
-          Value: false
-        c15:
-          Value: false
-        c16:
-          Value: false
-        c17:
-          Value: true
         c2:
           Value: false
         c3:
           Value: false
-        c4:
-          Value: false
-        c5:
-          Value: false
-        c6:
-          Value: false
-        c7:
-          Value: false
-        c8:
-          Value: false
-        c9:
-          Value: false
         cam0:
           Value: true
-        cam1:
+        camera_accel_frame:
+          Value: true
+        camera_accel_optical_frame:
+          Value: true
+        camera_base_link:
+          Value: true
+        camera_color_frame:
+          Value: true
+        camera_color_optical_frame:
+          Value: true
+        camera_depth_frame:
+          Value: true
+        camera_depth_optical_frame:
+          Value: true
+        camera_gyro_frame:
+          Value: true
+        camera_gyro_optical_frame:
+          Value: true
+        camera_link:
+          Value: true
+        camera_screw_frame:
           Value: true
         front_left_wheel_link:
           Value: true
@@ -123,41 +119,21 @@ Visualization Manager:
           Value: false
         imu:
           Value: true
-        lidar0:
+        imu_link:
           Value: true
-        livox_frame:
+        os_imu:
           Value: true
-        map0:
+        os_lidar:
           Value: true
-        mid_left_wheel_link:
+        os_sensor:
           Value: true
-        mid_right_wheel_link:
+        os_sensor_base_link:
           Value: true
-        oak:
-          Value: true
-        oak-d-base-frame:
-          Value: false
-        oak_imu_frame:
-          Value: true
-        oak_left_camera_frame:
-          Value: true
-        oak_left_camera_optical_frame:
-          Value: true
-        oak_model_origin:
-          Value: true
-        oak_rgb_camera_frame:
-          Value: true
-        oak_rgb_camera_optical_frame:
-          Value: true
-        oak_right_camera_frame:
-          Value: true
-        oak_right_camera_optical_frame:
-          Value: true
-        odom:
-          Value: false
         rear_left_wheel_link:
           Value: true
         rear_right_wheel_link:
+          Value: true
+        wheel:
           Value: true
         wheel_pose_frame:
           Value: true
@@ -168,86 +144,59 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base_link:
-          livox_frame:
+        A8_camera_head:
+          A8_view_frame:
             {}
-          wheel_pose_frame:
-            front_left_wheel_link:
-              {}
-            front_right_wheel_link:
-              {}
-            mid_left_wheel_link:
-              {}
-            mid_right_wheel_link:
-              {}
-            rear_left_wheel_link:
-              {}
-            rear_right_wheel_link:
-              {}
         global:
           c0:
             {}
           c1:
             {}
-          c10:
-            {}
-          c11:
-            {}
-          c12:
-            {}
-          c13:
-            {}
-          c14:
-            {}
-          c15:
-            {}
-          c16:
-            {}
-          c17:
-            {}
           c2:
             {}
           c3:
             {}
-          c4:
-            {}
-          c5:
-            {}
-          c6:
-            {}
-          c7:
-            {}
-          c8:
-            {}
-          c9:
-            {}
           imu:
+            base_link:
+              A8_base:
+                {}
+              camera_base_link:
+                camera_link:
+                  camera_depth_frame:
+                    camera_accel_frame:
+                      camera_accel_optical_frame:
+                        {}
+                    camera_color_frame:
+                      camera_color_optical_frame:
+                        {}
+                    camera_depth_optical_frame:
+                      {}
+                    camera_gyro_frame:
+                      camera_gyro_optical_frame:
+                        {}
+                  camera_screw_frame:
+                    {}
+              imu_link:
+                {}
+              os_sensor_base_link:
+                os_sensor:
+                  os_imu:
+                    {}
+                  os_lidar:
+                    {}
+              wheel_pose_frame:
+                front_left_wheel_link:
+                  {}
+                front_right_wheel_link:
+                  {}
+                rear_left_wheel_link:
+                  {}
+                rear_right_wheel_link:
+                  {}
             cam0:
               {}
-            cam1:
+            wheel:
               {}
-            lidar0:
-              {}
-          map0:
-            {}
-        oak-d-base-frame:
-          oak:
-            oak_imu_frame:
-              {}
-            oak_left_camera_frame:
-              oak_left_camera_optical_frame:
-                {}
-            oak_model_origin:
-              {}
-            oak_rgb_camera_frame:
-              oak_rgb_camera_optical_frame:
-                {}
-            oak_right_camera_frame:
-              oak_right_camera_optical_frame:
-                {}
-        odom:
-          base_link_livo:
-            {}
       Update Interval: 0
       Value: true
     - Class: rviz/Group
@@ -782,7 +731,7 @@ Visualization Manager:
       Value: false
     - Class: rviz/Image
       Enabled: false
-      Image Topic: /mins/cam2/track_img
+      Image Topic: /mins/cam1/track_img
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -832,7 +781,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 7.376639366149902
+      Distance: 4.211368560791016
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -840,17 +789,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.9848971366882324
-        Y: -0.14750397205352783
-        Z: 0
+        X: -0.5453628301620483
+        Y: -0.7882988452911377
+        Z: 1.1920928955078125e-06
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.23264485597610474
+      Pitch: 1.1226444244384766
       Target Frame: imu
-      Yaw: 5.640159606933594
+      Yaw: 2.9051523208618164
     Saved: ~
 Window Geometry:
   Displays:
@@ -862,7 +811,7 @@ Window Geometry:
     collapsed: false
   Image Tracks:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd000000040000000000000156000001a0fc020000000ffb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730200000780000002d000000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000001a0000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001a0054007200610063006b00200048006900730074006f0072007901000003d0000000160000000000000000fb0000001c00430075007200720065006e00740020004400650070007400680073000000030b000000eb0000000000000000fb000000140054007200610063006b0020004c0069006e006501000003ec000000160000000000000000fb0000001c00430075007200720065006e007400200044006500700074006800730000000328000000ce0000000000000000fb0000000a0049006d0061006700650000000328000000ce0000001600fffffffb0000000a0049006d0061006700650000000207000000b80000001600fffffffb0000000a0049006d006100670065010000021a000000c0000000000000000000000001000001ba000001a0fc0200000003fb0000000a00560069006500770073010000003d000001a0000000a400fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073800000245fc0100000005fb0000000800430041004d003000000000000000020c0000000000000000fb0000000800430041004d00310000000000000002ef0000000000000000fb0000000800430041004d00320000000000000003850000000000000000fb0000000800430041004d003300000000000000073f0000000000000000fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000738000001f8fc010000000afb0000000a0049006d00610067006500000000000000018c0000000000000000fb000000180049006d00610067006500200054007200610063006b0073010000000000000738000000a500fffffffb0000000a0049006d0061006700650000000000000003c00000000000000000fb0000000a0049006d0061006700650000000000000007800000000000000000fb0000000a0049006d00610067006501000001d4000001ec0000000000000000fb0000000a0049006d006100670065010000022b000001950000000000000000fb0000000a0049006d0061006700650100000000000003c00000000000000000fb000000180049006d00610067006500200054007200610063006b00730100000000000007800000000000000000fb0000000800540069006d0065000000000000000570000003bc00fffffffb0000000800540069006d006501000000000000045000000000000000000000041c000001a000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001560000026dfc020000000efb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730200000780000002d000000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000026d000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001a0054007200610063006b00200048006900730074006f0072007901000003d0000000160000000000000000fb0000001c00430075007200720065006e00740020004400650070007400680073000000030b000000eb0000000000000000fb000000140054007200610063006b0020004c0069006e006501000003ec000000160000000000000000fb0000001c00430075007200720065006e007400200044006500700074006800730000000328000000ce0000000000000000fb0000000a0049006d0061006700650000000328000000ce0000001600fffffffb0000000a0049006d00610067006500000001ea000000c00000001600ffffff00000001000001ba0000026dfc0200000003fb0000000a00560069006500770073010000003d0000026d000000a400fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000007380000019efc0100000005fb0000000800430041004d003000000000000000020c0000000000000000fb0000000800430041004d00310000000000000002ef0000000000000000fb0000000800430041004d00320000000000000003850000000000000000fb0000000800430041004d003300000000000000073f0000000000000000fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007380000012bfc010000000bfb0000000a0049006d00610067006500000000000000018c0000000000000000fb000000180049006d00610067006500200054007200610063006b0073010000000000000738000000a500fffffffb0000000a0049006d0061006700650000000000000002470000000000000000fb0000000a0049006d0061006700650000000000000003c00000000000000000fb0000000a0049006d0061006700650000000000000007800000000000000000fb0000000a0049006d00610067006501000001d4000001ec0000000000000000fb0000000a0049006d006100670065010000022b000001950000000000000000fb0000000a0049006d0061006700650100000000000003c00000000000000000fb000000180049006d00610067006500200054007200610063006b00730100000000000007380000000000000000fb0000000800540069006d0065000000000000000570000003bc00fffffffb0000000800540069006d006501000000000000045000000000000000000000041c0000026d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
