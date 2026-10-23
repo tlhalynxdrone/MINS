@@ -5,7 +5,7 @@ cam:
   max_n: 1
   use_stereo: false
   # stereo_pair: [0, 1]
-  do_calib_ext: false
+  do_calib_ext: true
   do_calib_int: false
   do_calib_dt: false
   # mono tuning: keep full 848x480 (downsampling to 424x240 starves a single camera of features)
@@ -30,10 +30,10 @@ cam:
   chi2_mult: 1
 
   # mono has no stereo baseline: reject far / poorly-triangulated points that bias the filter
-  fi_min_dist: 0.2
-  fi_max_dist: 30
-  fi_max_baseline: 200
-  fi_max_cond_number: 10000
+  # fi_min_dist: 0.2
+  # fi_max_dist: 30
+  # fi_max_baseline: 200
+  # fi_max_cond_number: 10000
   # ==================================================================
   # ==================================================================
 
@@ -45,8 +45,8 @@ cam0:
     - [-0.01861391778756205, -0.00645734275096882, -0.9998058935559406, -0.002847338916058711]
     - [0.9998159911602771, 0.004517934654532263, -0.018643285296552625, -0.11960054240440089]
     - [0.0, 0.0, 0.0, 1.0]
-  distortion_coeffs: [-0.03290300443768501, 0.03494822978973389, -0.00016445788787677884, -2.1918178390478715e-05]
+  distortion_coeffs: [-0.009034888029340485, 0.011197656801418446, -0.0007084334368526512, -0.0016667700338575358]
   distortion_model: radtan
-  intrinsics: [406.9036560058594, 406.8845520019531, 422.4888610839844, 234.09555053710938]
+  intrinsics: [414.24858422156973, 412.8025586098069, 419.8636841163643, 232.89547360119013]
   resolution: [848, 480]
   topic: /camera/color/image_raw
