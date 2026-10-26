@@ -70,72 +70,72 @@ Visualization Manager:
       Filter (whitelist): ""
       Frame Timeout: 120
       Frames:
-        A8_base:
-          Value: true
-        A8_camera_head:
-          Value: true
-        A8_view_frame:
-          Value: true
         All Enabled: false
-        base_link:
-          Value: false
         c0:
           Value: false
         c1:
           Value: false
+        c10:
+          Value: true
+        c11:
+          Value: true
+        c12:
+          Value: true
+        c13:
+          Value: true
+        c14:
+          Value: true
+        c15:
+          Value: true
+        c16:
+          Value: true
+        c17:
+          Value: true
+        c18:
+          Value: true
         c2:
           Value: false
         c3:
           Value: false
+        c4:
+          Value: true
+        c5:
+          Value: true
+        c6:
+          Value: true
+        c7:
+          Value: true
+        c8:
+          Value: true
+        c9:
+          Value: true
         cam0:
           Value: true
-        camera_accel_frame:
-          Value: true
-        camera_accel_optical_frame:
-          Value: true
-        camera_base_link:
-          Value: true
-        camera_color_frame:
-          Value: true
-        camera_color_optical_frame:
-          Value: true
-        camera_depth_frame:
-          Value: true
-        camera_depth_optical_frame:
-          Value: true
-        camera_gyro_frame:
-          Value: true
-        camera_gyro_optical_frame:
-          Value: true
-        camera_link:
-          Value: true
-        camera_screw_frame:
-          Value: true
-        front_left_wheel_link:
-          Value: true
-        front_right_wheel_link:
+        cam1:
           Value: true
         global:
           Value: false
         imu:
           Value: true
-        imu_link:
+        oak:
           Value: true
-        os_imu:
+        oak-d-base-frame:
           Value: true
-        os_lidar:
+        oak_imu_frame:
           Value: true
-        os_sensor:
+        oak_left_camera_frame:
           Value: true
-        os_sensor_base_link:
+        oak_left_camera_optical_frame:
           Value: true
-        rear_left_wheel_link:
+        oak_model_origin:
           Value: true
-        rear_right_wheel_link:
+        oak_rgb_camera_frame:
           Value: true
-        wheel:
+        oak_rgb_camera_optical_frame:
           Value: true
-        wheel_pose_frame:
+        oak_right_camera_frame:
+          Value: true
+        oak_right_camera_optical_frame:
           Value: true
       Marker Alpha: 1
       Marker Scale: 3
@@ -144,59 +144,65 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        A8_camera_head:
-          A8_view_frame:
-            {}
         global:
           c0:
             {}
           c1:
             {}
+          c10:
+            {}
+          c11:
+            {}
+          c12:
+            {}
+          c13:
+            {}
+          c14:
+            {}
+          c15:
+            {}
+          c16:
+            {}
+          c17:
+            {}
+          c18:
+            {}
           c2:
             {}
           c3:
             {}
+          c4:
+            {}
+          c5:
+            {}
+          c6:
+            {}
+          c7:
+            {}
+          c8:
+            {}
+          c9:
+            {}
           imu:
-            base_link:
-              A8_base:
-                {}
-              camera_base_link:
-                camera_link:
-                  camera_depth_frame:
-                    camera_accel_frame:
-                      camera_accel_optical_frame:
-                        {}
-                    camera_color_frame:
-                      camera_color_optical_frame:
-                        {}
-                    camera_depth_optical_frame:
-                      {}
-                    camera_gyro_frame:
-                      camera_gyro_optical_frame:
-                        {}
-                  camera_screw_frame:
-                    {}
-              imu_link:
-                {}
-              os_sensor_base_link:
-                os_sensor:
-                  os_imu:
-                    {}
-                  os_lidar:
-                    {}
-              wheel_pose_frame:
-                front_left_wheel_link:
-                  {}
-                front_right_wheel_link:
-                  {}
-                rear_left_wheel_link:
-                  {}
-                rear_right_wheel_link:
-                  {}
             cam0:
               {}
-            wheel:
+            cam1:
               {}
+        oak-d-base-frame:
+          oak:
+            oak_imu_frame:
+              {}
+            oak_left_camera_frame:
+              oak_left_camera_optical_frame:
+                {}
+            oak_model_origin:
+              {}
+            oak_rgb_camera_frame:
+              oak_rgb_camera_optical_frame:
+                {}
+            oak_right_camera_frame:
+              oak_right_camera_optical_frame:
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz/Group
@@ -457,7 +463,7 @@ Visualization Manager:
           Name: Image Tracks
           Normalize Range: true
           Queue Size: 2
-          Transport Hint: compressed
+          Transport Hint: raw
           Unreliable: false
           Value: true
       Enabled: true
@@ -781,7 +787,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 4.211368560791016
+      Distance: 34.838645935058594
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -797,9 +803,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.1226444244384766
+      Pitch: 0.6726449131965637
       Target Frame: imu
-      Yaw: 2.9051523208618164
+      Yaw: 1.1351529359817505
     Saved: ~
 Window Geometry:
   Displays:
