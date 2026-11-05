@@ -1,9 +1,10 @@
 """MINS on the AMIAD rover (ROS 2 version of subscribe_rover_amid.launch).
 
-Live (Isaac Sim, sim time):
+Live (Isaac Sim, sim time), with RViz2 (display_amiad_ros2.rviz) and the Scout + AMIAD rig model
+on the MINS estimate:
     ros2 launch mins subscribe_rover_amiad.launch.py
-With RViz2 (display_ros2.rviz) and the Scout + AMIAD rig model on the MINS estimate:
-    ros2 launch mins subscribe_rover_amiad.launch.py rviz:=true
+Without RViz2:
+    ros2 launch mins subscribe_rover_amiad.launch.py rviz:=false
 From a bag (played with its clock):
     ros2 launch mins subscribe_rover_amiad.launch.py rosbag:=~/rosbags/rover_amiad bag_start_time:=10
 """
@@ -27,6 +28,7 @@ def generate_launch_description():
     bag_start_time = LaunchConfiguration("bag_start_time")
     use_sim_time = LaunchConfiguration("use_sim_time")
     rviz = IfCondition(LaunchConfiguration("rviz"))
+    rviz_config = LaunchConfiguration("rviz_config")
     robot_description = ParameterValue(
         Command(["xacro ", PathJoinSubstitution([FindPackageShare("amiad_description"), "urdf",
                                                  "scout_v2_amiad.urdf.xacro"])]),
@@ -44,7 +46,11 @@ def generate_launch_description():
                               description="seconds to skip at the start of the bag"),
         DeclareLaunchArgument("use_sim_time", default_value="true",
                               description="use /clock (Isaac Sim or bag)"),
-        DeclareLaunchArgument("rviz", default_value="false", description="start RViz2 with display_ros2.rviz"),
+        DeclareLaunchArgument("rviz", default_value="true", description="start RViz2"),
+        DeclareLaunchArgument("rviz_config",
+                              default_value=PathJoinSubstitution([FindPackageShare("mins"), "launch",
+                                                                  "display_amiad_ros2.rviz"]),
+                              description="RViz2 config file"),
         Node(
             package="mins",
             executable="subscribe",
@@ -57,7 +63,7 @@ def generate_launch_description():
             package="rviz2",
             executable="rviz2",
             name="mins_rviz",
-            arguments=["-d", PathJoinSubstitution([FindPackageShare("mins"), "launch", "display_ros2.rviz"])],
+            arguments=["-d", rviz_config],
             parameters=[{"use_sim_time": use_sim_time}],
             condition=rviz,
         ),
