@@ -9,7 +9,7 @@ Panels:
         - /TF1/Frames1
         - /TF1/Tree1
       Splitter Ratio: 0.6100000143051147
-    Tree Height: 397
+    Tree Height: 232
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -27,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: MSCKF Points
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -62,53 +62,7 @@ Visualization Manager:
           Value: false
         base_link:
           Value: false
-        c0:
-          Value: false
-        c1:
-          Value: false
-        c10:
-          Value: false
-        c11:
-          Value: false
-        c12:
-          Value: false
-        c13:
-          Value: false
-        c14:
-          Value: false
-        c15:
-          Value: false
-        c16:
-          Value: false
-        c17:
-          Value: false
-        c18:
-          Value: false
-        c19:
-          Value: false
-        c2:
-          Value: false
-        c20:
-          Value: false
-        c21:
-          Value: false
-        c3:
-          Value: false
-        c4:
-          Value: false
-        c5:
-          Value: false
-        c6:
-          Value: false
-        c7:
-          Value: false
-        c8:
-          Value: false
-        c9:
-          Value: false
-        cam0:
-          Value: true
-        cam1:
+        base_link_gt:
           Value: true
         front_arm_link:
           Value: false
@@ -117,8 +71,6 @@ Visualization Manager:
         front_right_wheel_link:
           Value: false
         front_support_link:
-          Value: false
-        global:
           Value: false
         imu:
           Value: true
@@ -258,8 +210,6 @@ Visualization Manager:
           Value: false
         structure_link:
           Value: false
-        wheel:
-          Value: true
         zed_front_camera_center:
           Value: false
         zed_front_camera_link:
@@ -338,133 +288,7 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        global:
-          c0:
-            {}
-          c1:
-            {}
-          c10:
-            {}
-          c11:
-            {}
-          c12:
-            {}
-          c13:
-            {}
-          c14:
-            {}
-          c15:
-            {}
-          c16:
-            {}
-          c17:
-            {}
-          c18:
-            {}
-          c19:
-            {}
-          c2:
-            {}
-          c20:
-            {}
-          c21:
-            {}
-          c3:
-            {}
-          c4:
-            {}
-          c5:
-            {}
-          c6:
-            {}
-          c7:
-            {}
-          c8:
-            {}
-          c9:
-            {}
-          imu:
-            cam0:
-              {}
-            cam1:
-              {}
-            mins/base_link:
-              mins/amiad_base_link:
-                mins/front_arm_link:
-                  mins/front_support_link:
-                    mins/zed_front_link:
-                      mins/zed_front_camera_center:
-                        mins/zed_front_camera_link:
-                          {}
-                        mins/zed_front_left_camera_frame:
-                          mins/zed_front_left_camera_optical_frame:
-                            mins/zed_front_left_camera_frame_optical:
-                              {}
-                        mins/zed_front_right_camera_frame:
-                          mins/zed_front_right_camera_optical_frame:
-                            mins/zed_front_right_camera_frame_optical:
-                              {}
-                mins/left_arm_link:
-                  mins/left_support_link:
-                    mins/zed_left_link:
-                      mins/zed_left_camera_center:
-                        mins/zed_left_camera_link:
-                          {}
-                        mins/zed_left_left_camera_frame:
-                          mins/zed_left_left_camera_optical_frame:
-                            mins/zed_left_left_camera_frame_optical:
-                              {}
-                        mins/zed_left_right_camera_frame:
-                          mins/zed_left_right_camera_optical_frame:
-                            mins/zed_left_right_camera_frame_optical:
-                              {}
-                mins/pulse80_link:
-                  mins/pulse80_imu_link:
-                    {}
-                mins/rear_arm_link:
-                  mins/rear_support_link:
-                    mins/zed_rear_link:
-                      mins/zed_rear_camera_center:
-                        mins/zed_rear_camera_link:
-                          {}
-                        mins/zed_rear_left_camera_frame:
-                          mins/zed_rear_left_camera_optical_frame:
-                            mins/zed_rear_left_camera_frame_optical:
-                              {}
-                        mins/zed_rear_right_camera_frame:
-                          mins/zed_rear_right_camera_optical_frame:
-                            mins/zed_rear_right_camera_frame_optical:
-                              {}
-                mins/right_arm_link:
-                  mins/right_support_link:
-                    mins/zed_right_link:
-                      mins/zed_right_camera_center:
-                        mins/zed_right_camera_link:
-                          {}
-                        mins/zed_right_left_camera_frame:
-                          mins/zed_right_left_camera_optical_frame:
-                            mins/zed_right_left_camera_frame_optical:
-                              {}
-                        mins/zed_right_right_camera_frame:
-                          mins/zed_right_right_camera_optical_frame:
-                            mins/zed_right_right_camera_frame_optical:
-                              {}
-                mins/structure_link:
-                  {}
-              mins/base_footprint:
-                {}
-              mins/front_left_wheel_link:
-                {}
-              mins/front_right_wheel_link:
-                {}
-              mins/inertial_link:
-                {}
-              mins/rear_left_wheel_link:
-                {}
-              mins/rear_right_wheel_link:
-                {}
-            wheel:
-              {}
+        {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -1273,6 +1097,34 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: VICON
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /mins/cam2/track_img
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /mins/cam5/track_img
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 44; 44; 44
@@ -1345,9 +1197,11 @@ Window Geometry:
   Height: 1371
   Hide Left Dock: false
   Hide Right Dock: false
+  Image:
+    collapsed: false
   Image Tracks:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000001000000000000026f000004fdfc0200000006fb000000180049006d00610067006500200054007200610063006b0073010000003f000001110000001700fffffffb000000100044006900730070006c0061007900730100000156000001cd000000cc00fffffffb0000001200530065006c0065006300740069006f006e000000028b000000af0000005d00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000329000000de0000005d00fffffffb0000000a00560069006500770073010000040d0000012f000000a900fffffffb0000000800540069006d006500000004da000000620000003c00ffffff00000749000004fd00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000002000000000000026f000003f0fc0200000007fb000000180049006d00610067006500200054007200610063006b0073010000003f000000ae0000001700fffffffb0000000a0049006d00610067006501000000f3000000b30000001700fffffffb000000100044006900730070006c00610079007301000001ac00000128000000cc00fffffffb0000001200530065006c0065006300740069006f006e000000028b000000af0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007301000002da0000008f0000005d00fffffffb0000000a00560069006500770073010000036f000000c0000000a900fffffffb0000000800540069006d006500000004da000000620000003c00ffffff00000003000009be00000107fc0100000001fb0000000a0049006d0061006700650100000000000009be0000005e00ffffff00000749000003f000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
