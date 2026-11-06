@@ -6,26 +6,26 @@
 
 cam:
   enabled: true
-  max_n: 3
+  max_n: 4
   use_stereo: true
-  stereo_pair: [0, 1] # front (0,1), rear (2,3), left (4,5), right (6,7)
-  do_calib_ext: false
+  stereo_pair: [0, 1, 2, 3] # front (0,1), rear (2,3), left (4,5), right (6,7)
+  do_calib_ext: true
   do_calib_int: false
   do_calib_dt: true
   # --- tracking --------------------------------------------------------
   # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
-  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
-  n_pts: 250          # sky is masked, so spend the budget on the ground/scene below
+  histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
+  n_pts: 1500          # sky is masked, so spend the budget on the ground/scene below
   fast: 40            # higher threshold: reject weak corners from CLAHE noise, glare and leaves
   grid_x: 16
   grid_y: 10          # ~60x60 px cells, matches the 960x600 aspect ratio
-  min_px_dist: 25
+  min_px_dist: 20
   knn: 0.7
-  downsample: false
+  downsample: true
   # --- update ----------------------------------------------------------
   max_slam: 75
   max_msckf: 60
-  feat_rep: "GLOBAL_FULL_INVERSE_DEPTH" # handles far, low-parallax outdoor points
+  feat_rep: "GLOBAL_3D" # handles far, low-parallax outdoor points
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-4
   init_cov_ex_p: 1e-4
@@ -120,6 +120,7 @@ cam4:
   resolution: [960, 600]
   topic: /zed_left/zed_node/left/color/rect/image
   compressed: false
+
 cam5:
   timeoffset: 0.0
   T_cam_imu:
@@ -133,6 +134,7 @@ cam5:
   resolution: [960, 600]
   topic: /zed_left/zed_node/right/color/rect/image
   compressed: false
+
 cam6:
   timeoffset: 0.0
   T_cam_imu:
