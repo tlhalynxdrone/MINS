@@ -1,37 +1,45 @@
 %YAML:1.0 # need to specify the file type at the top!
 
+# Outdoor / direct sunlight tuning for the 4 front+rear ZED X streams.
+# Main issues outdoors: high dynamic range (hard shadows vs. sunlit ground), sky and
+# sun/lens-flare corners, moving vegetation and many far (low-parallax) features.
+
 cam:
   enabled: true
-  max_n: 4
+  max_n: 3
   use_stereo: true
-  stereo_pair: [0, 1, 2, 3] # front (0,1), rear (2,3), left (4,5), right (6,7)
-  do_calib_ext: true
+  stereo_pair: [0, 1] # front (0,1), rear (2,3), left (4,5), right (6,7)
+  do_calib_ext: false
   do_calib_int: false
   do_calib_dt: true
-  n_pts: 200
-  fast: 30
-  grid_x: 15
-  grid_y: 15
-  min_px_dist: 30
+  # --- tracking --------------------------------------------------------
+  # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
+  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
+  n_pts: 250          # sky is masked, so spend the budget on the ground/scene below
+  fast: 40            # higher threshold: reject weak corners from CLAHE noise, glare and leaves
+  grid_x: 16
+  grid_y: 10          # ~60x60 px cells, matches the 960x600 aspect ratio
+  min_px_dist: 25
   knn: 0.7
   downsample: false
-  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
+  # --- update ----------------------------------------------------------
   max_slam: 75
   max_msckf: 60
-  feat_rep: "GLOBAL_FULL_INVERSE_DEPTH"
+  feat_rep: "GLOBAL_FULL_INVERSE_DEPTH" # handles far, low-parallax outdoor points
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-4
   init_cov_ex_p: 1e-4
   init_cov_in_k: 1e-1
   init_cov_in_c: 1e-1
   init_cov_in_r: 1e-5
-  sigma_px: 1
-  chi2_mult: 1
+  sigma_px: 1.5       # sunlight auto-exposure jumps and heat shimmer make KLT noisier
+  chi2_mult: 1        # keep tight: rejects moving shadows / vegetation
 
-  fi_min_dist: 0.25
-  fi_max_dist: 150
+  # --- feature initialization -----------------------------------------
+  fi_min_dist: 0.5    # ignore the rover body / very close ground
+  fi_max_dist: 60     # 12 cm stereo baseline: depth beyond ~60 m is pure noise
   fi_max_baseline: 2000
-  fi_max_cond_number: 10000
+  fi_max_cond_number: 20000 # far points are ill-conditioned but still useful for rotation
   # ==================================================================
   # ==================================================================
 
@@ -48,6 +56,8 @@ cam0:
   resolution: [960, 600]
   topic: /zed_front/zed_node/left/color/rect/image
   compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare)
 
 cam1:
   timeoffset: 0.0
@@ -62,6 +72,8 @@ cam1:
   resolution: [960, 600]
   topic: /zed_front/zed_node/right/color/rect/image
   compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare)
 
 cam2:
   timeoffset: 0.0
@@ -76,6 +88,8 @@ cam2:
   resolution: [960, 600]
   topic: /zed_rear/zed_node/left/color/rect/image
   compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare)
 
 cam3:
   timeoffset: 0.0
@@ -90,6 +104,8 @@ cam3:
   resolution: [960, 600]
   topic: /zed_rear/zed_node/right/color/rect/image
   compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare)
 
 cam4:
   timeoffset: 0.0

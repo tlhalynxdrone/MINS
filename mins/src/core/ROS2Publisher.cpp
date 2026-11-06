@@ -147,7 +147,7 @@ void ROS2Publisher::publish_imu() {
   odom.block(7, 0, 3, 1) = sys->state->imu->vel();
   odom.block(10, 0, 3, 1) = sys->state->have_cpi(sys->state->time) ? sys->state->cpis.at(sys->state->time).w : Vector3d::Zero();
   nav_msgs::msg::Odometry odomIinG = ROS2Helper::ToOdometry(odom);
-  odomIinG.header.stamp = rclcpp::Time(sys->state->time);
+  odomIinG.header.stamp = rclcpp::Time(static_cast<int64_t>(sys->state->time * 1e9));
   odomIinG.header.frame_id = "global";
   odomIinG.child_frame_id = "imu";
 
@@ -251,7 +251,7 @@ void ROS2Publisher::publish_state() {
 
   // Create pose of IMU (note we use the bag time)
   geometry_msgs::msg::PoseWithCovarianceStamped poseIinM = ROS2Helper::ToPoseCov(sys->state->imu->value().block(0, 0, 7, 1));
-  poseIinM.header.stamp = rclcpp::Time(sys->state->time);
+  poseIinM.header.stamp = rclcpp::Time(static_cast<int64_t>(sys->state->time * 1e9));
   //  poseIinM.header.seq = seq_imu;
   poseIinM.header.frame_id = "global";
 
