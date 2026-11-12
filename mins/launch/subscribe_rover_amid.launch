@@ -1,6 +1,6 @@
 <launch>
 
-    <arg name="config"          default="rover_amiad" />
+    <arg name="config"          default="rover_amiad_4_cam" />
     <arg name="rosbag"          default="$(env HOME)/rosbags/$(arg config).bag" />
     <arg name="bag_start_time"  default="0" />
     <arg name="realtime"  default="true" />
