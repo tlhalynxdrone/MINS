@@ -11,7 +11,7 @@ num_cameras (ZED X images, 2 per stereo pair) selects the config folder, default
     ros2 launch mins subscribe_rover_amiad.launch.py num_cameras:=6
 camera_mode:=zed (default, launch_sim_teleop.sh default CAMERA_MODE=zed): the config topics are the ZED
   wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image (config intrinsics fx 370.8: ZED SDK
-  rectified). With the sim pinhole cameras (CAMERA_MODE=ros), remapped to /zed_<arm>/<eye>/image_rect_color:
+  rectified). With the sim pinhole cameras (CAMERA_MODE=ros), remapped to /zed_<arm>/zed_node/<eye>/image_rect_color:
     ros2 launch mins subscribe_rover_amiad.launch.py camera_mode:=ros
 From a bag (played with its clock):
     ros2 launch mins subscribe_rover_amiad.launch.py rosbag:=~/rosbags/rover_amiad bag_start_time:=10
@@ -48,7 +48,7 @@ def camera_remappings(camera_mode):
         return []
     if camera_mode != "ros":
         raise RuntimeError(f"camera_mode must be ros or zed, got '{camera_mode}'")
-    return [(f"/zed_{arm}/zed_node/{eye}/gray/rect/image", f"/zed_{arm}/{eye}/image_rect_color")
+    return [(f"/zed_{arm}/zed_node/{eye}/gray/rect/image", f"/zed_{arm}/zed_node/{eye}/image_rect_color")
             for arm in ARMS for eye in ("left", "right")]
 
 
@@ -100,7 +100,7 @@ def generate_launch_description():
                               description="master MINS config yaml (overrides config and num_cameras)"),
         DeclareLaunchArgument("camera_mode", default_value="zed",
                               description="zed: ZED wrapper /zed_<arm>/zed_node/<eye>/gray/rect/image (config topics), "
-                                          "ros: sim images /zed_<arm>/<eye>/image_rect_color"),
+                                          "ros: sim images /zed_<arm>/zed_node/<eye>/image_rect_color"),
         DeclareLaunchArgument("rosbag", default_value="",
                               description="bag to play with --clock, empty for live topics"),
         DeclareLaunchArgument("bag_start_time", default_value="0",

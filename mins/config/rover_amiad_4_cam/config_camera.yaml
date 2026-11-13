@@ -46,7 +46,7 @@ cam:
 
 # topics: ZED wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image (mono8, CAMERA_MODE=zed).
 # With the sim pinhole cameras (CAMERA_MODE=ros), subscribe_rover_amiad.launch.py camera_mode:=ros
-# remaps them to /zed_<arm>/<eye>/image_rect_color. intrinsics: ZED SDK rectified (fx 370.8).
+# remaps them to /zed_<arm>/zed_node/<eye>/image_rect_color. intrinsics: ZED SDK rectified (fx 370.8).
 cam0:
   timeoffset: 0.0
   T_cam_imu:
