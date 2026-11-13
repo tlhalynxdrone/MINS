@@ -9,10 +9,10 @@ cam:
   enabled: true
   max_n: 4
   use_stereo: true
-  stereo_pair: [0, 1] # front (0,1)
+  stereo_pair: [0, 1, 2, 3] # front (0,1)
   do_calib_ext: false
   do_calib_int: false
-  do_calib_dt: false
+  do_calib_dt: true
   # --- tracking --------------------------------------------------------
   # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
   histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE

@@ -8,7 +8,7 @@ cam:
   enabled: true
   max_n: 6
   use_stereo: true
-  stereo_pair: [0, 1, 2, 3] # front (0,1), rear (2,3), left (4,5), right (6,7)
+  stereo_pair: [0, 1, 2, 3, 4, 5] # front (0,1), rear (2,3), left (4,5), right (6,7)
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: true

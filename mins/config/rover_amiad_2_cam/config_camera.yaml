@@ -11,7 +11,7 @@ cam:
   stereo_pair: [0, 1] # front (0,1), rear (2,3), left (4,5), right (6,7)
   do_calib_ext: false
   do_calib_int: false
-  do_calib_dt: false
+  do_calib_dt: true
   # --- tracking --------------------------------------------------------
   # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
   histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
