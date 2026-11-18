@@ -8,7 +8,7 @@
 cam:
   enabled: true
   max_n: 4
-  use_stereo: true
+  use_stereo: false
   stereo_pair: [0, 1] # front (0,1)
   do_calib_ext: false
   do_calib_int: false
@@ -22,7 +22,7 @@ cam:
   grid_y: 10          # ~60x60 px cells, matches the 960x600 aspect ratio
   min_px_dist: 20
   knn: 0.7
-  downsample: false
+  downsample: true
   # --- update ----------------------------------------------------------
   max_slam: 75
   max_msckf: 60
@@ -110,59 +110,3 @@ cam3:
   compressed: false
   use_mask: false
   mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare)
-
-cam4:
-  timeoffset: 0.0
-  T_cam_imu:
-    - [1.0, 0.0, 0.0, 0.06]
-    - [0.0, 0.0, 1.0, 0.06375]
-    - [0.0, -1.0, 0.0, -0.50758]
-    - [0.0, 0.0, 0.0, 1.0]
-  distortion_coeffs: [0.0, 0.0, 0.0, 0.0]
-  distortion_model: radtan
-  intrinsics: [370.8, 370.8, 480.0, 300.0]
-  resolution: [960, 600]
-  topic: /zed_left/zed_node/left/gray/rect/image
-  compressed: false
-
-cam5:
-  timeoffset: 0.0
-  T_cam_imu:
-    - [1.0, 0.0, 0.0, -0.06]
-    - [0.0, 0.0, 1.0, 0.06375]
-    - [0.0, -1.0, 0.0, -0.50758]
-    - [0.0, 0.0, 0.0, 1.0]
-  distortion_coeffs: [0.0, 0.0, 0.0, 0.0]
-  distortion_model: radtan
-  intrinsics: [370.8, 370.8, 480.0, 300.0]
-  resolution: [960, 600]
-  topic: /zed_left/zed_node/right/gray/rect/image
-  compressed: false
-
-cam6:
-  timeoffset: 0.0
-  T_cam_imu:
-    - [-1.0, 0.0, 0.0, 0.06]
-    - [0.0, 0.0, 1.0, 0.06375]
-    - [0.0, 1.0, 0.0, -0.50758]
-    - [0.0, 0.0, 0.0, 1.0]
-  distortion_coeffs: [0.0, 0.0, 0.0, 0.0]
-  distortion_model: radtan
-  intrinsics: [370.8, 370.8, 480.0, 300.0]
-  resolution: [960, 600]
-  topic: /zed_right/zed_node/left/gray/rect/image
-  compressed: false
-
-cam7:
-  timeoffset: 0.0
-  T_cam_imu:
-    - [-1.0, 0.0, 0.0, -0.06]
-    - [0.0, 0.0, 1.0, 0.06375]
-    - [0.0, 1.0, 0.0, -0.50758]
-    - [0.0, 0.0, 0.0, 1.0]
-  distortion_coeffs: [0.0, 0.0, 0.0, 0.0]
-  distortion_model: radtan
-  intrinsics: [370.8, 370.8, 480.0, 300.0]
-  resolution: [960, 600]
-  topic: /zed_right/zed_node/right/gray/rect/image
-  compressed: false

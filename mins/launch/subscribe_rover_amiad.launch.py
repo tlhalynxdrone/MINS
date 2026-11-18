@@ -1,6 +1,6 @@
 """MINS on the AMIAD rover (ROS 2 version of subscribe_rover_amid.launch).
 
-Live (Isaac Sim, sim time), with RViz2 (display_amiad_ros2.rviz) and the Scout + AMIAD rig model
+Live (Isaac Sim, sim time), with RViz2 (display_amiad_ros2.rviz) and the rover B2 + AMIAD short rig model
 on the MINS estimate:
     ros2 launch mins subscribe_rover_amiad.launch.py
 Without RViz2:
@@ -9,6 +9,8 @@ num_cameras (ZED X images, 2 per stereo pair) selects the config folder, default
     2: rover_amiad_2_cam (front)          4: rover_amiad_4_cam (front, rear)
     6: rover_amiad_6_cam (+ left)         8: rover_amiad_8_cam (+ left, right)
     ros2 launch mins subscribe_rover_amiad.launch.py num_cameras:=6
+Real rig (Epson IMU /imu/data, Kalibr calibration): rover_amiad_2_cam (front) or
+    ros2 launch mins subscribe_rover_amiad.launch.py config:=rover_amiad_6_cam_real use_sim_time:=false   # or rover_amiad_8_cam_real
 camera_mode:=zed (default, launch_sim_teleop.sh default CAMERA_MODE=zed): the config topics are the ZED
   wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image (config intrinsics fx 370.8: ZED SDK
   rectified). With the sim pinhole cameras (CAMERA_MODE=ros), remapped to /zed_<arm>/zed_node/<eye>/image_rect_color:
@@ -27,9 +29,11 @@ from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
-# base_link in the MINS imu frame (pulse80_imu_link of the amiad_description URDF:
-# 0.192172 m above base_link, mounted upside down)
-IMU_TO_BASE = ["--z", "0.192172", "--roll", "3.141592653589793"]
+# Robot model: rover B2 + AMIAD short rig (rover_description/urdf/rover_amiad.urdf.xacro,
+# amiad_short_rig.xacro), same model as amiad_nav onboard.launch.py.
+# base_link in the MINS imu frame = Epson /imu/data frame = imu_link of that URDF
+# (base_link -> imu_link: xyz 0.03 -0.01 0.139772, no rotation; x forward, z up as found by Kalibr)
+IMU_TO_BASE = ["--x", "-0.03", "--y", "0.01", "--z", "-0.139772"]
 
 # config folder in mins/config per number of cameras (ZED X stereo pairs)
 CONFIG_BY_NUM_CAMERAS = {
@@ -39,7 +43,7 @@ CONFIG_BY_NUM_CAMERAS = {
     "8": "rover_amiad_8_cam",  # front, rear, left, right
 }
 
-ARMS = ["front", "rear", "left", "right"]
+ARMS = ["front", "left", "rear", "right"]
 
 
 def camera_remappings(camera_mode):
@@ -87,8 +91,7 @@ def generate_launch_description():
     rviz = IfCondition(LaunchConfiguration("rviz"))
     rviz_config = LaunchConfiguration("rviz_config")
     robot_description = ParameterValue(
-        Command(["xacro ", PathJoinSubstitution([FindPackageShare("amiad_description"), "urdf",
-                                                 "scout_v2_amiad.urdf.xacro"])]),
+        Command(["xacro ", LaunchConfiguration("urdf_model")]),
         value_type=str)
     return launch.LaunchDescription([
         DeclareLaunchArgument("num_cameras", default_value="4",
@@ -108,6 +111,11 @@ def generate_launch_description():
         DeclareLaunchArgument("use_sim_time", default_value="true",
                               description="use /clock (Isaac Sim or bag)"),
         DeclareLaunchArgument("rviz", default_value="true", description="start RViz2"),
+        DeclareLaunchArgument("urdf_model",
+                              default_value=PathJoinSubstitution([FindPackageShare("rover_description"), "urdf",
+                                                                  "rover_amiad.urdf.xacro"]),
+                              description="robot model shown on the MINS estimate (rover B2 + amiad_short_rig); "
+                                          "IMU_TO_BASE must match its base_link -> imu_link"),
         DeclareLaunchArgument("rviz_config",
                               default_value=PathJoinSubstitution([FindPackageShare("mins"), "launch",
                                                                   "display_amiad_ros2.rviz"]),
