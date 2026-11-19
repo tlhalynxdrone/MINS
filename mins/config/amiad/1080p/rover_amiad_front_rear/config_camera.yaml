@@ -1,6 +1,6 @@
 %YAML:1.0 # need to specify the file type at the top!
 
-# Outdoor / direct sunlight tuning for the 8 ZED X streams (front, rear, left, right stereo pairs).
+# Outdoor / direct sunlight tuning, 4 ZED X streams (front, rear stereo pairs), ZED HD1080 1920x1080.
 # Main issues outdoors: high dynamic range (hard shadows vs. sunlit ground), sky and
 # sun/lens-flare corners, moving vegetation and many far (low-parallax) features.
 
@@ -8,14 +8,14 @@ cam:
   enabled: true
   max_n: 4
   use_stereo: true
-  stereo_pair: [0, 1, 2, 3, 4, 5] # front (0,1), rear (2,3), left (4,5), right (6,7)
+  stereo_pair: [0, 1, 2, 3] # front (0,1), rear (2,3), left (4,5), right (6,7)
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: false
   # --- tracking --------------------------------------------------------
   # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
   histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
-  n_pts: 500          # sky is masked, so spend the budget on the ground/scene below
+  n_pts: 200          # sky is masked, so spend the budget on the ground/scene below
   fast: 30            # higher threshold: reject weak corners from CLAHE noise, glare and leaves
   grid_x: 16
   grid_y: 9           # ~60x60 px cells on the 960x540 downsampled 1920x1080 images
@@ -47,7 +47,6 @@ cam:
 # Real AMIAD rig, ZED HD1080 (1920x1080), Kalibr camera-IMU calibrations with the Epson IMU (/imu/data):
 #   cam0/cam1 front: front_cameras_imu_1080p.bag_0-camchain-imucam.yaml
 #   cam2/cam3 rear:  rear_cameras_imu_1080p.bag_0-camchain-imucam.yaml
-#   cam4/cam5 left:  left_cameras_imu.bag_0-camchain-imucam.yaml
 # T_cam_imu = Kalibr IMU -> camera (MINS inverts it).
 # timeoffset = timeshift_cam_imu (t_imu = t_cam + timeoffset); MINS uses the left camera's value for a pair.
 cam0:

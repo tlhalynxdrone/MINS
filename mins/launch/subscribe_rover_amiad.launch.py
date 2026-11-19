@@ -1,28 +1,32 @@
-"""MINS on the AMIAD rover (ROS 2 version of subscribe_rover_amid.launch).
+"""MINS on the AMIAD rover (ROS 2 version of subscribe_rover_amid.launch), real rig or Isaac Sim.
 
-Live (Isaac Sim, sim time), with RViz2 (display_amiad_ros2.rviz) and the rover B2 + AMIAD short rig model
-on the MINS estimate:
-    ros2 launch mins subscribe_rover_amiad.launch.py
-Without RViz2:
+resolution and num_cameras (ZED X images, 2 per stereo pair) select the config folder in mins/config:
+    resolution:=svga | 1080p   real rig (Epson IMU /imu/data, Kalibr calibrations), ZED grab resolution
+                               SVGA 960x600 or HD1080 1920x1080: amiad/<resolution>/<folder>
+        num_cameras  2: rover_amiad_front                  4: rover_amiad_front_rear
+                     6: rover_amiad_front_rear_left        8: rover_amiad_front_rear_left_right
+    resolution:=sim            Isaac Sim (SBG IMU, sim cameras): rover_amiad_<num_cameras>_cam
+Defaults: resolution 1080p, num_cameras 4; use_sim_time true for sim or a bag, else false.
+
+    ros2 launch amiad_nav onboard.launch.py        # real rig: ZED X, Epson IMU, rover URDF
+    ros2 launch mins subscribe_rover_amiad.launch.py resolution:=1080p num_cameras:=8
+    ros2 launch mins subscribe_rover_amiad.launch.py resolution:=svga num_cameras:=2
+    ros2 launch mins subscribe_rover_amiad.launch.py resolution:=sim num_cameras:=6     # Isaac Sim
+Without RViz2 (display_amiad_ros2.rviz, rover B2 + AMIAD short rig model on the MINS estimate):
     ros2 launch mins subscribe_rover_amiad.launch.py rviz:=false
-num_cameras (ZED X images, 2 per stereo pair) selects the config folder, default 4:
-    2: rover_amiad_2_cam (front)          4: rover_amiad_4_cam (front, rear)
-    6: rover_amiad_6_cam (+ left)         8: rover_amiad_8_cam (+ left, right)
-    ros2 launch mins subscribe_rover_amiad.launch.py num_cameras:=6
-Real rig (Epson IMU /imu/data, Kalibr calibration): rover_amiad_2_cam (front) or
-    ros2 launch mins subscribe_rover_amiad.launch.py config:=rover_amiad_6_cam_real use_sim_time:=false   # or rover_amiad_8_cam_real
+config:=<folder relative to mins/config> or config_path:=<config.yaml> override resolution/num_cameras.
 camera_mode:=zed (default, launch_sim_teleop.sh default CAMERA_MODE=zed): the config topics are the ZED
-  wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image (config intrinsics fx 370.8: ZED SDK
-  rectified). With the sim pinhole cameras (CAMERA_MODE=ros), remapped to /zed_<arm>/zed_node/<eye>/image_rect_color:
-    ros2 launch mins subscribe_rover_amiad.launch.py camera_mode:=ros
-From a bag (played with its clock):
+  wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image. With the sim pinhole cameras
+  (CAMERA_MODE=ros), remapped to /zed_<arm>/zed_node/<eye>/image_rect_color:
+    ros2 launch mins subscribe_rover_amiad.launch.py resolution:=sim camera_mode:=ros
+From a bag (played with its clock; use_sim_time then defaults to true):
     ros2 launch mins subscribe_rover_amiad.launch.py rosbag:=~/rosbags/rover_amiad bag_start_time:=10
 """
 import os
 
 import launch
 from ament_index_python.packages import get_package_share_directory
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, OpaqueFunction, Shutdown
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, OpaqueFunction, SetLaunchConfiguration, Shutdown
 from launch.conditions import IfCondition
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
@@ -35,12 +39,19 @@ from launch_ros.substitutions import FindPackageShare
 # (base_link -> imu_link: xyz 0.03 -0.01 0.139772, no rotation; x forward, z up as found by Kalibr)
 IMU_TO_BASE = ["--x", "-0.03", "--y", "0.01", "--z", "-0.139772"]
 
-# config folder in mins/config per number of cameras (ZED X stereo pairs)
-CONFIG_BY_NUM_CAMERAS = {
-    "2": "rover_amiad_2_cam",  # front
-    "4": "rover_amiad_4_cam",  # front, rear
-    "6": "rover_amiad_6_cam",  # front, rear, left
-    "8": "rover_amiad_8_cam",  # front, rear, left, right
+# config folder in mins/config per resolution and number of cameras (ZED X images, 2 per stereo pair)
+REAL_CONFIG_BY_NUM_CAMERAS = {
+    "2": "rover_amiad_front",                   # front
+    "4": "rover_amiad_front_rear",              # front, rear
+    "6": "rover_amiad_front_rear_left",         # front, rear, left
+    "8": "rover_amiad_front_rear_left_right",   # front, rear, left, right
+}
+CONFIGS = {
+    # real rig, Kalibr calibrations per ZED grab resolution
+    "svga": {n: os.path.join("amiad", "svga", c) for n, c in REAL_CONFIG_BY_NUM_CAMERAS.items()},
+    "1080p": {n: os.path.join("amiad", "1080p", c) for n, c in REAL_CONFIG_BY_NUM_CAMERAS.items()},
+    # Isaac Sim
+    "sim": {n: f"rover_amiad_{n}_cam" for n in REAL_CONFIG_BY_NUM_CAMERAS},
 }
 
 ARMS = ["front", "left", "rear", "right"]
@@ -57,20 +68,24 @@ def camera_remappings(camera_mode):
 
 
 def mins_node(context):
-    """MINS node, its master config from config_path, else config, else num_cameras."""
+    """MINS node, its master config from config_path, else config, else resolution + num_cameras."""
     config_path = LaunchConfiguration("config_path").perform(context).strip()
     if not config_path:
         config = LaunchConfiguration("config").perform(context).strip()
         if not config:
+            resolution = LaunchConfiguration("resolution").perform(context).strip().lower()
+            if resolution not in CONFIGS:
+                raise RuntimeError(f"resolution must be one of {list(CONFIGS)}, got '{resolution}'")
             num_cameras = LaunchConfiguration("num_cameras").perform(context).strip()
-            if num_cameras not in CONFIG_BY_NUM_CAMERAS:
-                raise RuntimeError(f"num_cameras must be one of {list(CONFIG_BY_NUM_CAMERAS)}, "
+            if num_cameras not in CONFIGS[resolution]:
+                raise RuntimeError(f"num_cameras must be one of {list(CONFIGS[resolution])}, "
                                    f"got '{num_cameras}'")
-            config = CONFIG_BY_NUM_CAMERAS[num_cameras]
+            config = CONFIGS[resolution][num_cameras]
         config_path = os.path.join(get_package_share_directory("mins"), "config", config, "config.yaml")
     camera_mode = LaunchConfiguration("camera_mode").perform(context).strip().lower()
     return [
-        launch.actions.LogInfo(msg=f"[mins] config: {config_path}, camera_mode: {camera_mode}"),
+        launch.actions.LogInfo(msg=f"[mins] config: {config_path}, camera_mode: {camera_mode}, "
+                                   f"use_sim_time: {LaunchConfiguration('use_sim_time').perform(context)}"),
         Node(
             package="mins",
             executable="subscribe",
@@ -84,6 +99,15 @@ def mins_node(context):
     ]
 
 
+def resolve_use_sim_time(context):
+    """use_sim_time empty: true for the Isaac Sim configs or a bag (played with --clock), else false."""
+    if LaunchConfiguration("use_sim_time").perform(context).strip():
+        return []
+    sim = LaunchConfiguration("resolution").perform(context).strip().lower() == "sim"
+    bag = bool(LaunchConfiguration("rosbag").perform(context).strip())
+    return [SetLaunchConfiguration("use_sim_time", "true" if sim or bag else "false")]
+
+
 def generate_launch_description():
     rosbag = LaunchConfiguration("rosbag")
     bag_start_time = LaunchConfiguration("bag_start_time")
@@ -94,13 +118,17 @@ def generate_launch_description():
         Command(["xacro ", LaunchConfiguration("urdf_model")]),
         value_type=str)
     return launch.LaunchDescription([
+        DeclareLaunchArgument("resolution", default_value="1080p",
+                              description="svga | 1080p: real rig configs mins/config/amiad/<resolution> "
+                                          "(must match the ZED grab resolution); sim: Isaac Sim configs"),
         DeclareLaunchArgument("num_cameras", default_value="4",
-                              description="2, 4, 6 or 8: selects the config folder "
-                                          f"{CONFIG_BY_NUM_CAMERAS} (overridden by config)"),
+                              description="2 (front), 4 (+ rear), 6 (+ left) or 8 (+ right): selects the "
+                                          f"config folder {REAL_CONFIG_BY_NUM_CAMERAS} (overridden by config)"),
         DeclareLaunchArgument("config", default_value="",
-                              description="config folder in mins/config (overrides num_cameras)"),
+                              description="config folder relative to mins/config, e.g. amiad/1080p/rover_amiad_front "
+                                          "(overrides resolution and num_cameras)"),
         DeclareLaunchArgument("config_path", default_value="",
-                              description="master MINS config yaml (overrides config and num_cameras)"),
+                              description="master MINS config yaml (overrides config, resolution and num_cameras)"),
         DeclareLaunchArgument("camera_mode", default_value="zed",
                               description="zed: ZED wrapper /zed_<arm>/zed_node/<eye>/gray/rect/image (config topics), "
                                           "ros: sim images /zed_<arm>/zed_node/<eye>/image_rect_color"),
@@ -108,8 +136,8 @@ def generate_launch_description():
                               description="bag to play with --clock, empty for live topics"),
         DeclareLaunchArgument("bag_start_time", default_value="0",
                               description="seconds to skip at the start of the bag"),
-        DeclareLaunchArgument("use_sim_time", default_value="true",
-                              description="use /clock (Isaac Sim or bag)"),
+        DeclareLaunchArgument("use_sim_time", default_value="",
+                              description="use /clock; empty: true for resolution:=sim or with rosbag, else false"),
         DeclareLaunchArgument("rviz", default_value="true", description="start RViz2"),
         DeclareLaunchArgument("urdf_model",
                               default_value=PathJoinSubstitution([FindPackageShare("rover_description"), "urdf",
@@ -120,6 +148,7 @@ def generate_launch_description():
                               default_value=PathJoinSubstitution([FindPackageShare("mins"), "launch",
                                                                   "display_amiad_ros2.rviz"]),
                               description="RViz2 config file"),
+        OpaqueFunction(function=resolve_use_sim_time),
         OpaqueFunction(function=mins_node),
         Node(
             package="rviz2",

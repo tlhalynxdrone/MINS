@@ -1,0 +1,147 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+# Outdoor / direct sunlight tuning, 6 ZED X streams (front, rear, left stereo pairs), ZED HD1080 1920x1080.
+# Main issues outdoors: high dynamic range (hard shadows vs. sunlit ground), sky and
+# sun/lens-flare corners, moving vegetation and many far (low-parallax) features.
+
+cam:
+  enabled: true
+  max_n: 6
+  use_stereo: true
+  stereo_pair: [0, 1, 2, 3, 4, 5, 6, 7] # front (0,1), rear (2,3), left (4,5), right (6,7)
+  do_calib_ext: false
+  do_calib_int: false
+  do_calib_dt: false
+  # --- tracking --------------------------------------------------------
+  # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
+  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
+  n_pts: 500          # sky is masked, so spend the budget on the ground/scene below
+  fast: 30            # higher threshold: reject weak corners from CLAHE noise, glare and leaves
+  grid_x: 16
+  grid_y: 9           # ~60x60 px cells on the 960x540 downsampled 1920x1080 images
+  min_px_dist: 20
+  knn: 0.7
+  downsample: true    # 1920x1080 -> 960x540 (MINS halves the config intrinsics too)
+  # --- update ----------------------------------------------------------
+  max_slam: 75
+  max_msckf: 60
+  feat_rep: "GLOBAL_3D" # handles far, low-parallax outdoor points
+  init_cov_dt: 1e-4
+  init_cov_ex_o: 1e-4
+  init_cov_ex_p: 1e-4
+  init_cov_in_k: 1e-1
+  init_cov_in_c: 1e-1
+  init_cov_in_r: 1e-5
+  sigma_px: 1.5       # sunlight auto-exposure jumps and heat shimmer make KLT noisier
+  chi2_mult: 1        # keep tight: rejects moving shadows / vegetation
+
+  # --- feature initialization -----------------------------------------
+  fi_min_dist: 0.5    # ignore the rover body / very close ground
+  fi_max_dist: 60     # 12 cm stereo baseline: depth beyond ~60 m is pure noise
+  fi_max_baseline: 2000
+  fi_max_cond_number: 20000 # far points are ill-conditioned but still useful for rotation
+  # ==================================================================
+  # ==================================================================
+
+# topics: ZED wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image (mono8).
+# Real AMIAD rig, ZED HD1080 (1920x1080), Kalibr camera-IMU calibrations with the Epson IMU (/imu/data):
+#   cam0/cam1 front: front_cameras_imu_1080p.bag_0-camchain-imucam.yaml
+#   cam2/cam3 rear:  rear_cameras_imu_1080p.bag_0-camchain-imucam.yaml
+#   cam4/cam5 left:  left_cameras_imu_1080p.bag_0-camchain-imucam.yaml
+# T_cam_imu = Kalibr IMU -> camera (MINS inverts it).
+# timeoffset = timeshift_cam_imu (t_imu = t_cam + timeoffset); MINS uses the left camera's value for a pair.
+cam0:
+  timeoffset: 0.00309321033073007
+  T_cam_imu:
+    - [-0.0019370397818435081, -0.9999408462123821, -0.010702894606006153, 0.05600932716672996]
+    - [-0.001369440508116715, 0.010705557163141977, -0.9999417561430866, 0.08084165849969406]
+    - [0.9999971862508299, -0.0019222699837480595, -0.0013900965906355478, -0.24185764882788566]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.00771992, 0.00125201, -0.000773982, -0.000590973]
+  distortion_model: radtan
+  intrinsics: [707.873, 705.189, 953.661, 534.146]
+  resolution: [1920, 1080]
+  topic: /zed_front/zed_node/left/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare); SVGA mask: make a 1080p one before use_mask: true
+
+cam1:
+  timeoffset: 0.003276794080429554
+  T_cam_imu:
+    - [-0.0005148397200872012, -0.9999458604856384, -0.010392835883389295, -0.06455582524275723]
+    - [-0.0011867734275474717, 0.01039344090713129, -0.9999452824804675, 0.08077680239650377]
+    - [0.9999991632540972, -0.0005024776078715321, -0.0011920601324178492, -0.24158241027241284]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.0067659, 0.000623762, -0.000305543, -0.000512362]
+  distortion_model: radtan
+  intrinsics: [707.824, 705.231, 955.363, 534.33]
+  resolution: [1920, 1080]
+  topic: /zed_front/zed_node/right/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare); SVGA mask: make a 1080p one before use_mask: true
+
+cam2:
+  timeoffset: 0.004560761569850098
+  T_cam_imu:
+    - [0.014270560140685368, 0.9997857708456646, 0.01499211552149532, 0.04274968064603204]
+    - [-0.0007662037679820877, 0.015004571957713625, -0.9998871315064266, 0.08305217082468276]
+    - [-0.9998978768079545, 0.014257462428657275, 0.0009801632713045683, -0.2720810615258676]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.00771992, 0.00125201, -0.000773982, -0.000590973]
+  distortion_model: radtan
+  intrinsics: [707.873, 705.189, 953.661, 534.146]
+  resolution: [1920, 1080]
+  topic: /zed_rear/zed_node/left/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare); SVGA mask: make a 1080p one before use_mask: true
+
+cam3:
+  timeoffset: 0.004580376391807069
+  T_cam_imu:
+    - [0.01284915461899111, 0.9998003005084407, 0.015305499952926294, -0.07785911837182967]
+    - [-0.000945007142333254, 0.015318898871153341, -0.9998822122124569, 0.08297764137339762]
+    - [-0.99991699964901, 0.0128331773387243, 0.0011416533250755423, -0.2717873430719586]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.0067659, 0.000623762, -0.000305543, -0.000512362]
+  distortion_model: radtan
+  intrinsics: [707.824, 705.231, 955.363, 534.33]
+  resolution: [1920, 1080]
+  topic: /zed_rear/zed_node/right/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare); SVGA mask: make a 1080p one before use_mask: true
+
+cam4:
+  timeoffset: 0.0035702322207204107
+  T_cam_imu:
+    - [0.9999758445770011, -0.006726096367903578, 0.0017521102029422544, 0.07458329237070839]
+    - [0.0018396207156072494, 0.013026531380476325, -0.9999134588932265, 0.0790046239600865]
+    - [0.006702690365538954, 0.9998925287788899, 0.013038590185314225, -0.23159743434634364]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.00124401, -0.000349205, 0.000333558, -0.000312613]
+  distortion_model: radtan
+  intrinsics: [719.415, 716.662, 969.195, 545.818]
+  resolution: [1920, 1080]
+  topic: /zed_left/zed_node/left/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare); SVGA mask: make a 1080p one before use_mask: true
+
+cam5:
+  timeoffset: 0.0039933118251488835
+  T_cam_imu:
+    - [0.9999864256829505, -0.004827682850849092, 0.0019600837045732314, -0.045717582680996294]
+    - [0.0020222036549066933, 0.012896354968623958, -0.9999147937303966, 0.07881103429617309]
+    - [0.0048019935667801515, 0.9999051842583951, 0.012905942467318576, -0.2324482467777266]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [-0.00148055, -0.000115784, 0.000292494, 7.71444e-05]
+  distortion_model: radtan
+  intrinsics: [719.0, 716.443, 970.521, 545.892]
+  resolution: [1920, 1080]
+  topic: /zed_left/zed_node/right/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare); SVGA mask: make a 1080p one before use_mask: true

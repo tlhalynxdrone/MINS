@@ -1,7 +1,7 @@
 %YAML:1.0 # need to specify the file type at the top!
 
 # Epson G366 on the real AMIAD rig (ess_imu_driver2, /imu/data, frame imu_link, 400 Hz).
-# Noise model from Kalibr, front_cameras_imu_1080p.bag_0-imu.yaml (= rear_cameras_imu_1080p) (imu0, update_rate 400 Hz),
+# Noise model from Kalibr, <arm>_cameras_imu_1080p.bag_0-imu.yaml (same for all 4 ZED) (imu0, update_rate 400 Hz),
 # continuous-time densities as MINS / OpenVINS expect them.
 # Isaac Sim (SBG Pulse-80, /pulse80/imu) values: accel_noise 3.33e-03, accel_bias 5.88e-04,
 # gyro_noise 3.49e-05, gyro_bias 2.42e-06.

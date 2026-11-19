@@ -1,30 +1,30 @@
 %YAML:1.0 # need to specify the file type at the top!
 
-# Outdoor / direct sunlight tuning for the 8 ZED X streams (front, rear, left, right stereo pairs).
+# Outdoor / direct sunlight tuning, 2 ZED X streams (front stereo pair), ZED HD1080 1920x1080.
 # Main issues outdoors: high dynamic range (hard shadows vs. sunlit ground), sky and
 # sun/lens-flare corners, moving vegetation and many far (low-parallax) features.
 
 cam:
   enabled: true
-  max_n: 2
-  use_stereo: true
-  stereo_pair: [0, 1, 2, 3, 4, 5] # front (0,1), rear (2,3), left (4,5), right (6,7)
+  max_n: 1
+  use_stereo: false
+  stereo_pair: [0, 1] # front (0,1), rear (2,3), left (4,5), right (6,7)
   do_calib_ext: false
   do_calib_int: false
   do_calib_dt: false
   # --- tracking --------------------------------------------------------
   # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
-  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
-  n_pts: 500          # sky is masked, so spend the budget on the ground/scene below
+  histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
+  n_pts: 400          # sky is masked, so spend the budget on the ground/scene below
   fast: 30            # higher threshold: reject weak corners from CLAHE noise, glare and leaves
-  grid_x: 16
-  grid_y: 9           # ~60x60 px cells on the 960x540 downsampled 1920x1080 images
+  grid_x: 20
+  grid_y: 20           # ~60x60 px cells on the 960x540 downsampled 1920x1080 images
   min_px_dist: 20
   knn: 0.7
-  downsample: true    # 1920x1080 -> 960x540 (MINS halves the config intrinsics too)
+  downsample: false    # 1920x1080 -> 960x540 (MINS halves the config intrinsics too)
   # --- update ----------------------------------------------------------
-  max_slam: 75
-  max_msckf: 60
+  max_slam: 60
+  max_msckf: 40
   feat_rep: "GLOBAL_3D" # handles far, low-parallax outdoor points
   init_cov_dt: 1e-4
   init_cov_ex_o: 1e-4
@@ -46,8 +46,6 @@ cam:
 # topics: ZED wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image (mono8).
 # Real AMIAD rig, ZED HD1080 (1920x1080), Kalibr camera-IMU calibrations with the Epson IMU (/imu/data):
 #   cam0/cam1 front: front_cameras_imu_1080p.bag_0-camchain-imucam.yaml
-#   cam2/cam3 rear:  rear_cameras_imu_1080p.bag_0-camchain-imucam.yaml
-#   cam4/cam5 left:  left_cameras_imu.bag_0-camchain-imucam.yaml
 # T_cam_imu = Kalibr IMU -> camera (MINS inverts it).
 # timeoffset = timeshift_cam_imu (t_imu = t_cam + timeoffset); MINS uses the left camera's value for a pair.
 cam0:

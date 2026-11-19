@@ -1,0 +1,81 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+# Outdoor / direct sunlight tuning, 2 ZED X streams (front stereo pair), ZED SVGA 960x600.
+# Main issues outdoors: high dynamic range (hard shadows vs. sunlit ground), sky and
+# sun/lens-flare corners, moving vegetation and many far (low-parallax) features.
+
+cam:
+  enabled: true
+  max_n: 2
+  use_stereo: true
+  stereo_pair: [0, 1, 2, 3, 4, 5, 6, 7] # front (0,1), rear (2,3), left (4,5), right (6,7)
+  do_calib_ext: false
+  do_calib_int: false
+  do_calib_dt: false
+  # --- tracking --------------------------------------------------------
+  # CLAHE equalizes locally: keeps texture both in hard shadows and in sunlit areas.
+  histogram_method: "CLAHE" # NONE, HISTOGRAM, CLAHE
+  n_pts: 500          # sky is masked, so spend the budget on the ground/scene below
+  fast: 30            # higher threshold: reject weak corners from CLAHE noise, glare and leaves
+  grid_x: 16
+  grid_y: 10          # ~60x60 px cells, matches the 960x600 aspect ratio
+  min_px_dist: 20
+  knn: 0.7
+  downsample: true
+  # --- update ----------------------------------------------------------
+  max_slam: 75
+  max_msckf: 60
+  feat_rep: "GLOBAL_3D" # handles far, low-parallax outdoor points
+  init_cov_dt: 1e-4
+  init_cov_ex_o: 1e-4
+  init_cov_ex_p: 1e-4
+  init_cov_in_k: 1e-1
+  init_cov_in_c: 1e-1
+  init_cov_in_r: 1e-5
+  sigma_px: 1.5       # sunlight auto-exposure jumps and heat shimmer make KLT noisier
+  chi2_mult: 1        # keep tight: rejects moving shadows / vegetation
+
+  # --- feature initialization -----------------------------------------
+  fi_min_dist: 0.5    # ignore the rover body / very close ground
+  fi_max_dist: 60     # 12 cm stereo baseline: depth beyond ~60 m is pure noise
+  fi_max_baseline: 2000
+  fi_max_cond_number: 20000 # far points are ill-conditioned but still useful for rotation
+  # ==================================================================
+  # ==================================================================
+
+# topics: ZED wrapper gray images /zed_<arm>/zed_node/<eye>/gray/rect/image (mono8).
+# Real AMIAD rig, ZED SVGA (960x600), Kalibr camera-IMU calibrations with the Epson IMU (/imu/data):
+#   cam0/cam1 front: front_cameras_imu.bag_0-camchain-imucam.yaml
+# T_cam_imu = Kalibr IMU -> camera (MINS inverts it).
+# timeoffset = timeshift_cam_imu (t_imu = t_cam + timeoffset); MINS uses the left camera's value for a pair.
+cam0:
+  timeoffset: 0.004738255855063534
+  T_cam_imu:
+    - [-0.005336243105015959, -0.9999428657022293, -0.009262280536619039, 0.0598936942931268]
+    - [0.001000104891444531, 0.00925707113123464, -0.9999566522726268, 0.08071190697390725]
+    - [0.9999852620412623, -0.005345275043075248, 0.0009506497691572635, -0.2125724463010583]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [0.00170314, -0.000120724, -0.000720448, 0.00018442]
+  distortion_model: radtan
+  intrinsics: [359.659, 358.976, 477.526, 295.78]
+  resolution: [960, 600]
+  topic: /zed_front/zed_node/left/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare)
+
+cam1:
+  timeoffset: 0.0047881125055809284
+  T_cam_imu:
+    - [-0.005841427370969154, -0.9999426041302049, -0.008981434828285006, -0.05934669268907638]
+    - [0.0008227674211974123, 0.00897677900129093, -0.9999593694208446, 0.0808082267607959]
+    - [0.9999826002386445, -0.005848579662364239, 0.0007702829951843904, -0.2129299491049543]
+    - [0.0, 0.0, 0.0, 1.0]
+  distortion_coeffs: [0.0017475, -0.000165273, -0.000505772, 0.000262755]
+  distortion_model: radtan
+  intrinsics: [359.545, 358.774, 477.295, 295.795]
+  resolution: [960, 600]
+  topic: /zed_front/zed_node/right/gray/rect/image
+  compressed: false
+  use_mask: false
+  mask: "mask_sky_960x600.png" # white = no features (sky, sun, lens flare)

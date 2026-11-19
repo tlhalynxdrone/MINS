@@ -1,0 +1,15 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+sys:
+  verbosity: 2
+  save_timing: true
+  path_timing: "~/eval/outputs/hiiro_singulair_epson_20/0.time"
+  save_state: true
+  path_state: "~/eval/outputs/hiiro_singulair_epson_20/0/"
+  save_trajectory: true
+  path_trajectory: "~/eval/outputs/hiiro_singulair_epson_20/0.txt"
+  save_prints: true
+  exp_id: 0
+  path_bag: "~/rosbags/mission/hiiro_singulair_epson_20/hiiro_singulair_epson_20.bag"
+  bag_start: 0
+  bag_durr: -1
